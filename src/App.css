@@ -59,7 +59,7 @@ html {
 .sidebar{
   background-color: lightgoldenrodyellow;
   height:100%;
-  width: 10rem;
+  width: 15rem;
   position: fixed;
   grid-column-start: 1;
 }
