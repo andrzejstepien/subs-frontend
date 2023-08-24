@@ -13,11 +13,11 @@ export default (props) => {
         return ["evenRow","oddRow"][n%2]
     } 
     
-    const renderedColumns = keys.map(key=>{
+    const renderedColumns = keys.map((key,i)=>{
         const cells = columnsData[key].map((cell,i)=>{
-            return <div className={`cell ${oddOrEven(i)}`}>{cell}</div>
+            return <div key={`${i}-${cell}`} className={`cell ${oddOrEven(i)}`}>{cell}</div>
         })
-        return <span className="column">
+        return <span key={key+i} className="column">
             <h1>{key}</h1>
             {cells}
         </span>
