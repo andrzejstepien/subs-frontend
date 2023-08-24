@@ -1,23 +1,18 @@
-import { useState, useEffect } from "react"
-import { API } from "../API.mjs"
+import Checkbox from "./Checkbox"
 export default (props) => {
-    const [options,setOptions] = useState([])
-    useEffect(()=>{
-        API.get(props.name).then(res=>{
-            setOptions(res.data)
-        })
-    },[])
+    
 
-    const optionsRendered = options.map((e,i)=>{
-        const value = Object.values(e)[0]
-        return <div>
-            <input type="checkbox" key={value+i} name={value}/>
-            <label htmlFor={value}>{value}</label>
-        </div>
+    const optionsRendered = props.options.map((e,i)=>{
+        return <Checkbox
+                onChange={props.onChange} 
+                label={e}
+                key={e+i}
+                value={props.data[e]}
+            />
     })
 
     return <fieldset>
-        <legend>Genre:</legend>
+        <legend>{props.legend}</legend>
         {optionsRendered}
     </fieldset>
 }
