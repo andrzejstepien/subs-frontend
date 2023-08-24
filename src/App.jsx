@@ -2,6 +2,7 @@ import './App.css'
 import Table from './components/Table'
 import Sidebar from './components/Sidebar'
 import NewSubmission from './components/NewSubmission.jsx'
+import NewStory from './components/NewStory'
 import { API } from './API.mjs'
 import { useState, useEffect } from 'react'
 
@@ -10,7 +11,9 @@ function App() {
     const [focus,setFocus] = useState("MAIN")
     const pages = {
       MAIN:<Table data={data}/>,
-      NEW:<NewSubmission/>
+      SUBMIT:<NewSubmission/>,
+      "NEW STORY":<NewStory/>
+
     }
    useEffect(()=>{
      API.get("submissions").then(res=>{setData(res.data)})
