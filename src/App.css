@@ -35,7 +35,7 @@ html {
 .table{
   display:flex;
   justify-content: center;
-  width:fit-content;
+  width:100%;
   background-color: green;
 }
 .column{
@@ -56,12 +56,27 @@ html {
 .evenRow{
   background-color: lightgrey;
 }
+
+
+.main-wrapper{
+  width: 80%;
+  margin:auto;
+  display: grid;
+  justify-items:stretch;
+  grid-template-columns: 1fr 5fr;
+}
+
 .sidebar{
   background-color: lightgoldenrodyellow;
   height:100%;
-  width: 15rem;
-  position: fixed;
+  min-height: 100vh;
+  width: 100%;
   grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.cpanel{
+  position:fixed;
 }
 
 .sidebar button{
@@ -69,14 +84,8 @@ html {
   font-size: 2rem;
 }
 
-.main-wrapper{
-  width: 80%;
-  margin:auto;
-  display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
-}
 
 .middle{
   grid-column-start: 2;
-  width:80%;
+  grid-column-end: 3;
 }
