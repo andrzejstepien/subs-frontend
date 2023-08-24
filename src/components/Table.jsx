@@ -18,7 +18,7 @@ export default (props) => {
             return <div key={`${i}-${cell}`} className={`cell ${oddOrEven(i)}`}>{cell}</div>
         })
         return <span key={key+i} className="column">
-            <h1>{key}</h1>
+            <h2>{key}</h2>
             {cells}
         </span>
     }) 

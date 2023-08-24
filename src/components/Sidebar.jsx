@@ -4,7 +4,9 @@ export default (props) => {
     })
 return <>
     <span className="sidebar">
+    <div className="cpanel">
     {buttons}
+    </div>
     </span>
     </>
 }
