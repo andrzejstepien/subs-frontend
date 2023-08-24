@@ -2,7 +2,7 @@ import express from "express"
 import pinoHTTP from 'pino-http'
 import logger from "../logger.mjs";
 import  cors  from "cors";
-import { selectSubmissions } from "./selectCalls.mjs";
+import { selectSubmissions, selectStories } from "./selectCalls.mjs";
 
 const app = express()
 const port = 4000
@@ -21,6 +21,12 @@ app.get('/api/submissions', async (req,res) => {
     res.statusCode = 200
     const result = await selectSubmissions()
     res.send(result)
+})
+app.get('/api/stories', async (req,res) => {
+  logger.info("submissions request received!")
+  res.statusCode = 200
+  const result = await selectStories()
+  res.send(result)
 })
 
 app.listen(port, (err)=>{
