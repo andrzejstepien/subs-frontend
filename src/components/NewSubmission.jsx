@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react"
-import { API } from "../API.mjs"
+import Dropdown from "./Dropdown"
 export default () => {
-    const [stories,setStories] = useState([])
-    useEffect(()=>{
-        API.get("stories").then(res=>{
-            console.log(res.data)
-            setStories(res.data)
-        })
-    },[])
-   
+    
+
 
     return <>
     <form>
-
-
+    <label for="stories">Story:</label>
+    <Dropdown name="stories" />
+    <label for="publishers">Publisher:</label>
+    <Dropdown name="publishers"/>
+    
     </form>
     
     </>
