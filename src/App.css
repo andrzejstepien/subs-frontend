@@ -40,7 +40,8 @@ table{
   margin: auto;
 }
 td{
-  
+  position:relative;
+  line-height: 3rem;
 }
 .oddRow{
   background-color: dimgray;
@@ -87,4 +88,20 @@ td{
 .middle{
   grid-column-start: 2;
   grid-column-end: 3;
+}
+
+.badge{
+  font-size: 1rem;
+  font-weight: bolder;
+  background-color: blueviolet; 
+  border-radius: 1rem;
+  padding: 0 1rem;
+}
+
+.badge-container{
+  position:absolute;
+  text-align: right;
+  z-index: 1;
+  top:-25%;
+  right:0%;
 }
