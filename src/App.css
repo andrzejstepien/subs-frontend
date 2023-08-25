@@ -32,29 +32,25 @@ html {
 
 }
 
-.table{
-  display:flex;
-  justify-content: center;
-  width:100%;
-  background-color: green;
+
+
+table{
+  font-size: 1.6rem;
+  width: fit-content;
+  margin: auto;
 }
-.column{
-  text-align: center;
-  width:max-content;
-}
-.column h1{
-  margin: 2rem;
-}
-.cell{
-  font-size: 1.4rem;
-  padding: 0 2rem;
-  overflow-x: hidden;
+td{
+  
 }
 .oddRow{
   background-color: dimgray;
 }
 .evenRow{
   background-color: lightgrey;
+}
+
+.rowHeader{
+  background-color: aquamarine;
 }
 
 .genre{
@@ -84,7 +80,7 @@ html {
 
 .sidebar button{
   display:block;
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 

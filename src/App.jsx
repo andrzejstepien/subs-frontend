@@ -1,35 +1,29 @@
 import './App.css'
-import Table from './components/Table'
 import Sidebar from './components/Sidebar'
-import NewSubmission from './components/NewSubmission.jsx'
-import NewStory from './components/NewStory'
-import Stories from './components/Stories'
+import NewSubmission from './components/pages/NewSubmission.jsx'
+import NewStory from './components/pages/NewStory'
+import Stories from './components/pages/Stories'
+import Overview from './components/pages/Overview'
 import { useState, useEffect } from 'react'
 
 function App() {
-  // const [data,setData] = useState([{}])
-    const [focus,setFocus] = useState("MAIN")
+    const [focus,setFocus] = useState("STORIES")
     const pages = {
-      MAIN:<Table table={"submissions"}/>,
       SUBMIT:<NewSubmission/>,
       "NEW STORY":<NewStory/>,
       STORIES:<Stories/>,
-      PUBLISHERS:<Table table="publishers"/>
+      OVERVIEW:<Overview/>
 
     }
-  //  useEffect(()=>{
-  //    API.get("submissions").then(res=>{setData(res.data)})
-  //  },[])
-   const changeFocus = (focus) => {
-    setFocus(focus)
-   }
+
+   
 
   
 
   return (
     <>
       <div className="main-wrapper">
-      <Sidebar changeFocus={changeFocus} pageKeys={Object.keys(pages)}/> 
+      <Sidebar setFocus={setFocus} pageKeys={Object.keys(pages)}/> 
       <div className="middle">
       {pages[focus]}
       </div>

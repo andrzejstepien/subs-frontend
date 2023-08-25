@@ -1,6 +1,6 @@
-import Checkboxes from "./Checkboxes"
+import Checkboxes from "../Checkboxes"
 import { useState, useEffect } from "react"
-import { API } from "../API.mjs"
+import { API } from "../../API.mjs"
 export default () => {
 
     const [data, setData] = useState({
@@ -12,10 +12,7 @@ export default () => {
         API.get("genres").then(res => {
             setGenres(() => {
                 const obj = {}
-                res.data.map(e => {
-                    return Object.values(e)[0]
-                })
-                    .forEach(e => {
+                res.data.forEach(e => {
                         obj[e] = false
                     })
                 return obj

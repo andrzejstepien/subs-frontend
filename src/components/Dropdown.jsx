@@ -10,8 +10,7 @@ export default (props) => {
     },[])
 
     const optionsRendered = options.map((e,i)=>{
-        const value = Object.values(e)[0]
-        return <option key={i} value={value}>{value}</option>
+        return <option key={i} value={e}>{e}</option>
     })
     return <select name={props.name}>
         {optionsRendered}

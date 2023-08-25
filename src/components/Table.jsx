@@ -1,37 +1,34 @@
-import { useEffect, useState } from "react"
-import { API } from "../API.mjs"
-
 export default (props) => {
-    const [data,setData] = useState([{}])
-    useEffect(()=>{
-        API.get(props.table).then(res=>{setData(res.data)})
-      },[])
+    //props.data ~ [{row1},{row2},{etc}]
+    //each row ~ {id:1, title:"Robin Hood", etc}
 
-  
-    const keys = Object.keys(data[0])
-    const columnsData = {}
-    for (const key of keys) {
-        columnsData[key] = data.map(row=>{
-            return row[key]
-        })
-    }
     const oddOrEven = (n) =>{
         return ["evenRow","oddRow"][n%2]
     } 
-    
-    const renderedColumns = keys.map((key,i)=>{
-        const cells = columnsData[key].map((cell,i)=>{
-            return <div key={`${i}-${cell}`} className={`cell ${oddOrEven(i)}`}>{cell}</div>
-        })
-        return <span key={key+i} className="column">
-            <h2>{key}</h2>
-            {cells}
-        </span>
-    }) 
-    console.dir(renderedColumns)
 
+  const tableHeaders = <tr className="rowHeader">
+  {Object.keys(props.data[0]).map((heading,i)=>{
+    return <th key={""+heading+i}>{heading}</th>
+  })}
+  </tr>
 
-return <div className="table">{renderedColumns}</div>
+  const tableRows = props.data.map((row,i)=>{
+    let currentRow = null
+    const cells = Object.keys(row).map((key,j)=>{
+        return <td key={""+i+j}>
+            {row[key]}
+            </td>
+    })
+    return <tr key={i} 
+    className={`row ${oddOrEven(i)}`}>{cells}</tr>
+  })
+
+return <table>
+    <tbody>
+{tableHeaders}
+{tableRows}
+</tbody>
+</table>
 
  
 
