@@ -18,12 +18,13 @@ export default (props) => {
   </tr>
 
   const tableRows = props.data.map((row, i) => {
-    let currentRow = null
     const cells = Object.keys(row).map((key, j) => {
       const cellValue = row[key]
-      const overlaysValue = props?.overlays[cellValue]
+      const overlaysValue = props.overlays ? props?.overlays[cellValue]:false
+      //THAT [0] IS VERY HACKY -- NEEDS CLEANER RESPONSE FROM SERVER
       return <td key={"" + i + j}>
-        {overlaysValue &&<Overlay array={overlaysValue}/>}
+        {overlaysValue &&<Overlay array={overlaysValue[0]}/>} 
+        
         {cellValue}
       </td>
     })
