@@ -3,6 +3,7 @@ import Table from './components/Table'
 import Sidebar from './components/Sidebar'
 import NewSubmission from './components/NewSubmission.jsx'
 import NewStory from './components/NewStory'
+import Stories from './components/Stories'
 import { API } from './API.mjs'
 import { useState, useEffect } from 'react'
 
@@ -12,7 +13,8 @@ function App() {
     const pages = {
       MAIN:<Table data={data}/>,
       SUBMIT:<NewSubmission/>,
-      "NEW STORY":<NewStory/>
+      "NEW STORY":<NewStory/>,
+      STORIES:<Stories/>
 
     }
    useEffect(()=>{
