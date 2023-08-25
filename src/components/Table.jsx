@@ -1,11 +1,17 @@
-
+import { useEffect, useState } from "react"
+import { API } from "../API.mjs"
 
 export default (props) => {
-    const rowsData = props.data
-    const keys = Object.keys(rowsData[0])
+    const [data,setData] = useState([{}])
+    useEffect(()=>{
+        API.get(props.table).then(res=>{setData(res.data)})
+      },[])
+
+  
+    const keys = Object.keys(data[0])
     const columnsData = {}
     for (const key of keys) {
-        columnsData[key] = rowsData.map(row=>{
+        columnsData[key] = data.map(row=>{
             return row[key]
         })
     }
