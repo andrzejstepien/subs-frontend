@@ -13,7 +13,8 @@ function App() {
       MAIN:<Table table={"submissions"}/>,
       SUBMIT:<NewSubmission/>,
       "NEW STORY":<NewStory/>,
-      STORIES:<Stories/>
+      STORIES:<Stories/>,
+      PUBLISHERS:<Table table="publishers"/>
 
     }
   //  useEffect(()=>{
