@@ -4,14 +4,11 @@ import {API} from '../../API.mjs'
 export default () => {
     const [data,setData] = useState([{}])
     const [stories,setStories] = useState([])
-    const [storyGenres,setStoryGenres] = useState({
-      "All Mouth":["horror"],
-      "Is This a Scam?":["horror","sci-fi"],
-      "Propping up the Bar":["horror","sci-fi","fantasy"]
-    })
+    const [storyGenres,setStoryGenres] = useState({})
 
     useEffect(()=>{
-        API.get("stories/full").then(res=>{setData(res.data)})
+      API.get("stories-genres").then(res=>{setStoryGenres(res.data)})  
+      API.get("stories/full").then(res=>{setData(res.data)})
       },[])
 
 
