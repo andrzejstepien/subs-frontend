@@ -1,6 +1,7 @@
 import Checkboxes from "../Checkboxes"
 import { useState, useEffect } from "react"
 import { API } from "../../API.mjs"
+import Page from "./Page.jsx"
 export default () => {
 
     const [data, setData] = useState({
@@ -53,7 +54,8 @@ export default () => {
         
     }
 
-    return <form onSubmit={handleSubmit}>
+    return <Page heading="New Story">
+    <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input name="title" type="text"
             value={data.title}
@@ -70,6 +72,6 @@ export default () => {
         />
         <button type="submit">SUBMIT</button>
     </form>
-
+    </Page>
 
 }
