@@ -15,28 +15,34 @@ function App() {
     "NEW STORY": <NewStory />,
     STORIES: <Stories handleClick={handleClick} />,
     OVERVIEW: <Overview handleClick={handleClick} />
-
   })
+  const [storiesPageData,setStoriesPageData] = useState([])
+  
   useEffect(() => {
-    API.get('stories').then(res => {
-      const stories = res.data
-      const pairs = {}
-      for (const story of stories) {
-        pairs[story] = <SingleStory title={story} />
+
+    API.get('page/stories').then(res=>{
+      const rows = res.data
+      setStoriesPageData(rows)
+      const pages = {}
+      for (const row of rows) {
+        pages[row.Title] = <SingleStory data={row} />
       }
       setPages(prev=>{
         return{
           ...prev,
-          ...pairs
+          ...pages
         }
       })
     })
   }, [])
+
+
+
   function handleClick(data) {
     if(pages[data]){setFocus(data)}
   }
 
-
+  
 
 
   return (
