@@ -21,9 +21,8 @@ export default (props) => {
     const cells = Object.keys(row).map((key, j) => {
       const cellValue = row[key]
       const overlaysValue = props.overlays ? props?.overlays[cellValue]:false
-      //THAT [0] IS VERY HACKY -- NEEDS CLEANER RESPONSE FROM SERVER
       return <td key={"" + i + j}>
-        {overlaysValue &&<Overlay array={overlaysValue[0]}/>} 
+        {overlaysValue &&<Overlay array={overlaysValue}/>} 
         
         {cellValue}
       </td>
