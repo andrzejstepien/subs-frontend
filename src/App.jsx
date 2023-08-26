@@ -10,11 +10,11 @@ import { API } from './API.mjs'
 
 function App() {
   const [focus, setFocus] = useState("STORIES")
-  const [pages, setPages] = useState({
+  const [pageMatrix, setPageMatrix] = useState({
     SUBMIT: <NewSubmission />,
     "NEW STORY": <NewStory />,
-    STORIES: <Stories handleClick={handleClick} />,
-    OVERVIEW: <Overview handleClick={handleClick} />
+    STORIES: <Stories setFocus={setFocus} />,
+    OVERVIEW: <Overview setFocus={setFocus} />
   })
   const [storiesPageData,setStoriesPageData] = useState([])
   
@@ -25,22 +25,21 @@ function App() {
       setStoriesPageData(rows)
       const pages = {}
       for (const row of rows) {
-        pages[row.Title] = <SingleStory data={row} />
+        pages[row.Title] = <SingleStory data={row}/>
       }
-      setPages(prev=>{
+      setPageMatrix(prev=>{
         return{
           ...prev,
           ...pages
         }
       })
+      console.dir(pageMatrix)
     })
   }, [])
 
 
 
-  function handleClick(data) {
-    if(pages[data]){setFocus(data)}
-  }
+
 
   
 
@@ -48,9 +47,9 @@ function App() {
   return (
     <>
       <div className="main-wrapper">
-        <Sidebar setFocus={setFocus} pageKeys={Object.keys(pages)} />
+        <Sidebar setFocus={setFocus} pageKeys={Object.keys(pageMatrix).slice(0,4)} />
         <div className="middle">
-          {pages[focus]}
+          {pageMatrix[focus]}
         </div>
       </div>
     </>

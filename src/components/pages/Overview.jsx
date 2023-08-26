@@ -8,12 +8,8 @@ export default (props) => {
     useEffect(()=>{
         API.get("submissions").then(res=>{setData(res.data)})
       },[])
-  
-
-
-
     return <Page heading="Overview">
-      <Table data={data} handleClick={props.handleClick}/>
+      <Table data={data} setFocus={props.setFocus}/>
     </Page>
     
 }
