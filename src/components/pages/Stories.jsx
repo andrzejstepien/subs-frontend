@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react"
 import Table from "../Table"
 import {API} from '../../API.mjs'
-export default () => {
+import Page from "./Page"
+export default (props) => {
     const [data,setData] = useState([{}])
-    const [storyGenres,setStoryGenres] = useState({})
     
     useEffect(()=>{
-      API.get("stories-genres").then(res=>{setStoryGenres(res.data)})  
-      API.get("stories/full").then(res=>{setData(res.data)})
+      API.get("page/stories").then(res=>{
+        console.dir(res.data)
+        return setData(res.data)
+      })  
       },[])
-    useEffect(()=>{
-      console.dir(storyGenres)
-    },[storyGenres])
+
+      
 
 
 
-
-    return <Table data={data} overlays={storyGenres}/>
+    return  <Page heading="Stories">
+              <Table data={data} handleClick={props.handleClick}/>
+            </Page>
+    
+   
 }
