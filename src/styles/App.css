@@ -1,0 +1,58 @@
+@import 'Table.css';
+@import 'Sidebar.css';
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+* {
+  border: none;
+}
+menu:not(article menu),
+ol:not(article ol),
+ul:not(article ul) {
+    list-style: none;
+}
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+article ol,
+article ul {
+    list-style-position: inside;
+}
+html {
+  font-size: 62.5%; 
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+}
+#root{
+  width:100vw;
+  height: 100vh;
+
+}
+
+
+
+
+
+
+
+.main-wrapper{
+  width: 80%;
+  margin:auto;
+  display: grid;
+  justify-items:stretch;
+  grid-template-columns: 1fr 5fr;
+}
+
+
+
+
+.middle{
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+

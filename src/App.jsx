@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/App.css'
 import Sidebar from './components/Sidebar'
 import NewSubmission from './components/pages/NewSubmission.jsx'
 import NewStory from './components/pages/NewStory'

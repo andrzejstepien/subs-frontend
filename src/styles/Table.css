@@ -1,0 +1,31 @@
+table{
+    font-size: 1.6rem;
+    width: fit-content;
+    margin: auto;
+  }
+  td{
+    
+  }
+  .oddRow{
+    background-color: dimgray;
+  }
+  .evenRow{
+    background-color: lightgrey;
+  }
+  
+  .rowHeader{
+    background-color: aquamarine;
+  }
+
+  .badge{
+    font-size: 1rem;
+    color:white;
+    font-weight: bolder;
+    background-color:darkmagenta; 
+    border-radius: 1rem;
+    padding: 0.1rem 1rem;
+  }
+  
+  .badge-container{
+   
+  }
