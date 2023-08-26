@@ -1,29 +1,31 @@
+@import 'Variables.css';
 table{
     font-size: 1.6rem;
     width: fit-content;
     margin: auto;
   }
   td{
-    
+    padding: 1rem;
   }
   .oddRow{
-    background-color: dimgray;
+    background-color: hsl(var(--color-2),var(--lightest));
   }
   .evenRow{
-    background-color: lightgrey;
+    background-color: hsl(var(--color-3),var(--lightest));
   }
   
   .rowHeader{
-    background-color: aquamarine;
+    background-color: hsl(var(--color-1),var(--light));
   }
 
   .badge{
     font-size: 1rem;
     color:white;
     font-weight: bolder;
-    background-color:darkmagenta; 
+    background-color:hsl(var(--accent),var(--dark)); 
     border-radius: 1rem;
     padding: 0.1rem 1rem;
+    word-break: keep-all;
   }
   
   .badge-container{

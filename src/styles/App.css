@@ -1,5 +1,6 @@
 @import 'Table.css';
 @import 'Sidebar.css';
+@import 'Variables.css';
 *,
 *::before,
 *::after {
@@ -54,5 +55,10 @@ html {
 .middle{
   grid-column-start: 2;
   grid-column-end: 3;
+}
+
+.page{
+  width:max-content;
+  margin:auto;
 }
 
