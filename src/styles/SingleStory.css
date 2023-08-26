@@ -1,0 +1,25 @@
+.storyContainer{
+font-size: 1.6rem;
+}
+
+.storyContainer > div{
+    margin:1rem;
+}
+
+.storyContainer .left{
+float:left;
+display:inline;
+}
+
+.storyContainer .right{
+float:right;
+display:inline;
+}
+
+.storyContainer table{
+    font-size: 1rem;
+}
+
+.storyContainer h3{
+    display:inline;
+}

@@ -1,6 +1,7 @@
 @import 'Table.css';
 @import 'Sidebar.css';
 @import 'Variables.css';
+@import 'SingleStory.css';
 *,
 *::before,
 *::after {
@@ -35,6 +36,9 @@ html {
 
 }
 
+header {
+  text-align: center;
+}
 
 
 
@@ -46,7 +50,7 @@ html {
   margin:auto;
   display: grid;
   justify-items:stretch;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 5fr 1fr;
 }
 
 

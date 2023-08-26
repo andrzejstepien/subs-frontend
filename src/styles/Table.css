@@ -4,6 +4,11 @@ table{
     width: fit-content;
     margin: auto;
   }
+table table{
+  font-size:.6rem;
+  line-height:1em;
+}
+
   td{
     padding: 1rem;
   }
