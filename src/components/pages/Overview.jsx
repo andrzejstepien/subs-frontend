@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import Table from "../Table"
 import {API} from '../../API.mjs'
-export default () => {
+import Page from "./Page.jsx"
+export default (props) => {
     const [data,setData] = useState([{}])
     const [stories,setStories] = useState()
     useEffect(()=>{
@@ -11,5 +12,8 @@ export default () => {
 
 
 
-    return <Table data={data}/>
+    return <Page heading="Overview">
+      <Table data={data} handleClick={props.handleClick}/>
+    </Page>
+    
 }
