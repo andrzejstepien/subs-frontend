@@ -1,27 +1,33 @@
-import Overlay from "./Overlay"
+import Badges from "./Badges"
 
-export default (props) => {
+export default function Table (props){
   //props.data ~ [{row1},{row2},{etc}]
   //each row ~ [{id:1, title:"The Red Room", etc},
   //each row ~ {id:1, title:"The Signalman", etc}]
-console.dir(props.data)
+  const data = props?.data??[]
+  if(data.length===0){return <p>Nothing to see here...</p>}
   const oddOrEven = (n) => {
     return ["evenRow", "oddRow"][n % 2]
   }
 
-const renderCellContents = (data) => {
-  if(Array.isArray(data)){
-    return <Overlay data={data}/>
-  } return <button onClick={()=>{props.handleClick(data)}}>{data}</button>
+const renderCellContents = (contents) => {
+  
+  if(Array.isArray(contents)){
+    if(typeof contents[0] === 'object'){
+      return <Table data={contents}/>
+    }
+    return <Badges data={contents}/>
+  } 
+  return <button onClick={()=>{props.setFocus(contents)}}>{contents}</button>
 }
 
   const tableHeaders = <tr className="rowHeader">
-    {Object.keys(props.data[0]).map((heading, i) => {
+    {Object.keys(data[0]).map((heading, i) => {
       return <th key={"" + heading + i}>{heading}</th>
     })}
   </tr>
 
-  const tableRows = props.data.map((row, i) => {
+  const tableRows = data.map((row, i) => {
     const cells = Object.keys(row).map((key, j) => {
       const cellValue = renderCellContents(row[key])
 
