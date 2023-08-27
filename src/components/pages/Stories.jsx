@@ -1,26 +1,16 @@
-import { useState, useEffect } from "react"
 import Table from "../Table"
-import {API} from '../../API.mjs'
 import Page from "./Page"
+import { removePairs } from "../../functions/utilities.mjs"
 export default (props) => {
-    
-
+   
       const filterList = [
         'Submissions']
       
 
-      const removePairs = (array,keys) => {
-        return array.map(e=>{
-          for (const key of keys) {
-            delete e[key]
-          }
-          return e
-        })
-      }
-      console.dir(props.data)
+      
 
     return  <Page heading="Stories">
-              <Table data={props.data} setFocus={props.setFocus}/>
+              <Table data={removePairs(props.data,filterList)} setFocus={props.setFocus}/>
             </Page>
     
    
