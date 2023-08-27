@@ -1,0 +1,25 @@
+.singlePageContainer{
+font-size: 1.6rem;
+}
+
+.singlePageContainer > div{
+    margin:1rem;
+}
+
+.singlePageContainer .left{
+float:left;
+display:inline;
+}
+
+.singlePageContainer .right{
+float:right;
+display:inline;
+}
+
+.singlePageContainer table{
+    font-size: 1rem;
+}
+
+.singlePageContainer h3{
+    display:inline;
+}

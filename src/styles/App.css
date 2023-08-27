@@ -1,7 +1,7 @@
 @import 'Table.css';
 @import 'Sidebar.css';
 @import 'Variables.css';
-@import 'SingleStory.css';
+@import 'singlePageContainer.css';
 *,
 *::before,
 *::after {

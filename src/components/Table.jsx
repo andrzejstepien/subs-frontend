@@ -10,15 +10,21 @@ export default function Table (props){
     return ["evenRow", "oddRow"][n % 2]
   }
 
-const renderCellContents = (contents) => {
-  
+const renderCellContents = (contents,key) => {
   if(Array.isArray(contents)){
     if(typeof contents[0] === 'object'){
-      return <Table data={contents}/>
+      return <Table data={contents} setFocus={props.setFocus}/>
     }
-    return <Badges data={contents}/>
+    return <Badges data={contents} setFocus={props.setFocus}/>
   } 
-  return <button onClick={()=>{props.setFocus(contents)}}>{contents}</button>
+  if(key==="Title" || key==="Story" || key==="Publication"){
+    return <button onClick={()=>{props.setFocus(contents)}}>{contents}</button>
+  }
+  if(key==="Website"){
+    return <a href={contents}>{contents}</a>
+  }
+  return <p>{contents}</p>
+  
 }
 
   const tableHeaders = <tr className="rowHeader">
@@ -29,7 +35,7 @@ const renderCellContents = (contents) => {
 
   const tableRows = data.map((row, i) => {
     const cells = Object.keys(row).map((key, j) => {
-      const cellValue = renderCellContents(row[key])
+      const cellValue = renderCellContents(row[key],key)
 
       return <td key={"" + i + j}> 
         {cellValue}
