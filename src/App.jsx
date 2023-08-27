@@ -10,34 +10,46 @@ import { API } from './API.mjs'
 
 function App() {
   const [storiesPageData, setStoriesPageData] = useState([])
+  const [pubsPageData, setPubsPageData] = useState([])
   const [focus, setFocus] = useState("STORIES")
   const [pageMatrix, setPageMatrix] = useState({})
+  const [pageMatrixInit, setPageMatrixInit] = useState({
+           SUBMIT: <NewSubmission />,
+          "NEW STORY": <NewStory />,
+          STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
+          OVERVIEW: <Overview setFocus={setFocus} />
+  })
 
 
   useEffect(() => {
-
     API.get('page/stories').then(res => {
       const rows = res.data
       setStoriesPageData(rows)
-      
     })
   }, [])
+  useEffect(()=>{
+    setPageMatrix(prev=>{
+      return{
+        SUBMIT: <NewSubmission />,
+          "NEW STORY": <NewStory />,
+          STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
+          OVERVIEW: <Overview setFocus={setFocus} />,
+      }
+    })
+  },[pageMatrixInit])
   useEffect(() => {
     const pages = {}
       for (const row of storiesPageData) {
         pages[row.Title] = <SingleStory data={row} />
       }
-      setPageMatrix(prev => {
+      setPageMatrix(prev=>{
         return {
-          SUBMIT: <NewSubmission />,
-          "NEW STORY": <NewStory />,
-          STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
-          OVERVIEW: <Overview setFocus={setFocus} />,
-          ...pages
+                  ...prev,
+                  ...pages
         }
       })
-      console.dir(pageMatrix)
   },[storiesPageData])
+ 
 
 
 

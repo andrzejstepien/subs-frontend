@@ -3,6 +3,7 @@ import Badges from "../Badges"
 import Table from "../Table"
 export default (props) => {
     const data = props.data
+    console.dir(data)
     return <Page heading={data.Title}>
         <div className="storyContainer">
             <div className="left">
