@@ -3,14 +3,7 @@ import Table from "../Table"
 import {API} from '../../API.mjs'
 import Page from "./Page"
 export default (props) => {
-    const [data,setData] = useState([{}])
     
-    useEffect(()=>{
-      API.get("page/stories").then(res=>{
-        console.dir(res.data)
-        return setData(removePairs(res.data,filterList))
-      })  
-      },[])
 
       const filterList = [
         'Submissions']
@@ -24,9 +17,10 @@ export default (props) => {
           return e
         })
       }
+      console.dir(props.data)
 
     return  <Page heading="Stories">
-              <Table data={data} setFocus={props.setFocus}/>
+              <Table data={props.data} setFocus={props.setFocus}/>
             </Page>
     
    
