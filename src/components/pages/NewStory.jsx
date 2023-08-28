@@ -2,7 +2,7 @@ import Checkboxes from "../Checkboxes"
 import { useState, useEffect } from "react"
 import { API } from "../../API.mjs"
 import Page from "./Page.jsx"
-export default () => {
+export default (props) => {
 
     const [data, setData] = useState({
         title: "",
@@ -10,14 +10,12 @@ export default () => {
     })
     const [genres, setGenres] = useState([])
     useEffect(() => {
-        API.get("genres").then(res => {
-            setGenres(() => {
-                const obj = {}
-                res.data.forEach(e => {
-                        obj[e] = false
-                    })
-                return obj
-            })
+        setGenres(() => {
+            const obj = {}
+            props.formOptions.genres.forEach(e => {
+                    obj[e] = false
+                })
+            return obj
         })
     }, [])
     useEffect(() => {

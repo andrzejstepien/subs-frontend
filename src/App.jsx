@@ -18,12 +18,13 @@ function App() {
   const [pubsPageData, setPubsPageData] = useState([1,1,1])
   const [focus, setFocus] = useState("SUBMISSIONS")
   const [pageDirectory, setPageDirectory] = useState([])
+  const [formOptions, setFormOptions] = useState({})
   const sidebarPages = {
   SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
   STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
   PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} />,
-  SUBMIT: <NewSubmission />,
-  "NEW STORY": <NewStory />}
+  SUBMIT: <NewSubmission formOptions={formOptions}/>,
+  "NEW STORY": <NewStory formOptions={formOptions}/>}
 
 
 
@@ -51,6 +52,9 @@ function App() {
           return e
         })
       })
+    })
+    API.get("formOptions").then(res=>{
+      setFormOptions(res.data)
     })
   },[])
   useEffect(() => {
@@ -80,7 +84,7 @@ function App() {
   useEffect(()=>{
     const pages = {}
     for (const row of submissionsData) {
-      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} />
+      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions}/>
     }
     setPageDirectory(prev=>{
       return{
