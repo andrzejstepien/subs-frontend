@@ -30,18 +30,24 @@ function App() {
 
   useEffect(() => {
     API.get('page/stories').then(res => {
-      const rows = res.data
+      const rows = res.data.map(e=>{
+        e.Edit = <button onClick={()=>{setFocus(`EDITSTORY${e.id}`)}}>EDIT</button>
+          return e
+      })
       setStoriesPageData(rows)
     })
     API.get('page/pubs').then(res=>{
-      const rows = res.data
+      const rows = res.data.map(e=>{
+        e.Edit = <button onClick={()=>{setFocus(`EDITPUB${e.id}`)}}>EDIT</button>
+          return e
+      })
       setPubsPageData(rows)
     })
     API.get("submissions").then(res=>{
       setSubmissionsData(prev=>{
         return res.data.map(e=>{
           e['Days Out'] = e.Response==="Pending"?daysSince(e.Submitted):daysSince(e.Submitted,e.Responded)
-          e.Edit = <button onClick={()=>{setFocus(e.id)}}>EDIT</button>
+          e.Edit = <button onClick={()=>{setFocus(`EDITSUB${e.id}`)}}>EDIT</button>
           return e
         })
       })
@@ -74,7 +80,7 @@ function App() {
   useEffect(()=>{
     const pages = {}
     for (const row of submissionsData) {
-      pages[row.id] = <EditSubmission data={row} />
+      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} />
     }
     setPageDirectory(prev=>{
       return{
