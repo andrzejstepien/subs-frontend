@@ -3,21 +3,25 @@ import Sidebar from './components/Sidebar'
 import NewSubmission from './components/pages/NewSubmission.jsx'
 import NewStory from './components/pages/NewStory'
 import Stories from './components/pages/Stories'
-import Overview from './components/pages/Overview'
+import Submissions from './components/pages/Submissions'
 import SingleStory from './components/pages/SingleStory'
 import SinglePublication from './components/pages/SinglePublication'
 import Publications from './components/pages/Publications'
+import EditSubmission from './components/pages/EditSubmission'
+import { daysSince } from './functions/utilities.mjs'
 import { useState, useEffect } from 'react'
 import { API } from './API.mjs'
 
 function App() {
+  const [submissionsData,setSubmissionsData] = useState([{}])
   const [storiesPageData, setStoriesPageData] = useState([])
   const [pubsPageData, setPubsPageData] = useState([1,1,1])
   const [focus, setFocus] = useState("SUBMISSIONS")
   const [pageDirectory, setPageDirectory] = useState([])
-  const sidebarPages = {STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
+  const sidebarPages = {
+  SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
+  STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
   PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} />,
-  SUBMISSIONS: <Overview setFocus={setFocus} />,
   SUBMIT: <NewSubmission />,
   "NEW STORY": <NewStory />}
 
@@ -32,6 +36,15 @@ function App() {
     API.get('page/pubs').then(res=>{
       const rows = res.data
       setPubsPageData(rows)
+    })
+    API.get("submissions").then(res=>{
+      setSubmissionsData(prev=>{
+        return res.data.map(e=>{
+          e['Days Out'] = e.Response==="Pending"?daysSince(e.Submitted):daysSince(e.Submitted,e.Responded)
+          e.Edit = <button onClick={()=>{setFocus(e.id)}}>EDIT</button>
+          return e
+        })
+      })
     })
   },[])
   useEffect(() => {
@@ -58,6 +71,19 @@ function App() {
       }
     })
   },[pubsPageData])
+  useEffect(()=>{
+    const pages = {}
+    for (const row of submissionsData) {
+      pages[row.id] = <EditSubmission data={row} />
+    }
+    setPageDirectory(prev=>{
+      return{
+        ...prev,
+        ...pages
+      }
+    })
+    
+  },[submissionsData])
  
 
 

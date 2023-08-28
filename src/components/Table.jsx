@@ -1,54 +1,65 @@
 import Badges from "./Badges"
-
-export default function Table (props){
+import { renderClassNames, removePairs } from "../functions/utilities.mjs"
+export default function Table(props) {
   //props.data ~ [{row1},{row2},{etc}]
   //each row ~ [{id:1, title:"The Red Room", etc},
   //each row ~ {id:1, title:"The Signalman", etc}]
-  const data = props?.data??[]
-  if(data.length===0){return <p>Nothing to see here...</p>}
+  const data = props?.data ?? []
+  const filterList = props?.filterList ?? []
+  if (data.length === 0) { return <p>Nothing to see here...</p> }
   const oddOrEven = (n) => {
     return ["evenRow", "oddRow"][n % 2]
   }
-
-const renderCellContents = (contents,key) => {
-  if(Array.isArray(contents)){
-    if(typeof contents[0] === 'object'){
-      return <Table data={contents} setFocus={props.setFocus}/>
+  const renderCell = (key, row, i, j) => {
+    if (filterList.includes(key)) { return null }
+    const Cell = (props) => {
+      return <td key={"" + i + j}>{props.children}</td>
     }
-    return <Badges data={contents} setFocus={props.setFocus}/>
-  } 
-  if(key==="Title" || key==="Story" || key==="Publication"){
-    return <button onClick={()=>{props.setFocus(contents)}}>{contents}</button>
+    const contents = row[key]
+    if (Array.isArray(contents)) {
+      if (typeof contents[0] === 'object') {
+        return <Cell><Table data={contents} setFocus={props.setFocus} /></Cell>
+      }
+      return <Cell><Badges data={contents} setFocus={props.setFocus} /></Cell>
+    }
+    if (key === "Title" || key === "Story" || key === "Publication") {
+      return <Cell><button onClick={() => { props.setFocus(contents) }}>{contents}</button></Cell>
+    }
+    if (key === "Website") {
+      return <Cell><a href={contents}>{contents}</a></Cell>
+    }
+    if (key === "Days Out") {
+      return <Cell>{row['Days Out']} </Cell>
+    }
+    return <Cell>{contents}</Cell>
   }
-  if(key==="Website"){
-    return <a href={contents}>{contents}</a>
-  }
-  return <p>{contents}</p>
-  
-}
-
-  const tableHeaders = <tr className="rowHeader">
-    {Object.keys(data[0]).map((heading, i) => {
-      return <th key={"" + heading + i}>{heading}</th>
-    })}
-  </tr>
-
-  const tableRows = data.map((row, i) => {
-    const cells = Object.keys(row).map((key, j) => {
-      const cellValue = renderCellContents(row[key],key)
-
-      return <td key={"" + i + j}> 
-        {cellValue}
-      </td>
+  const renderRows = (data) => {
+    return data.map((row, i) => {
+      const cells = Object.keys(row).map((key, j) => {
+        return <>{renderCell(key, row, i, j)}  </>    
+      })
+      const classNames = [
+        `row ${oddOrEven(i)} `,
+        row['Query After'] - row['Days Out'] < 0 && row['Responded'] === '-' ? "alert" : ""
+      ]
+      return <tr key={i}
+        className={renderClassNames(classNames)}>{cells}</tr>
     })
-    return <tr key={i}
-      className={`row ${oddOrEven(i)}`}>{cells}</tr>
-  })
+  }
+  const renderHeaders = (data) => {
+    return <tr className="rowHeader">
+      {Object.keys(data[0]).map((heading, i) => {
+        if (filterList.includes(heading)) { return }
+        return <th key={"" + heading + i}>{heading}</th>
+      })}
+    </tr>
+  }
+
 
   return <table>
     <tbody>
-      {tableHeaders}
-      {tableRows}
+      {renderHeaders(data)}
+      {renderRows(data)}
     </tbody>
   </table>
 

@@ -11,7 +11,7 @@ export default (props) => {
       console.dir(props.setFocus)
 
     return  <Page heading="Stories" setFocus={props.setFocus}>
-              <Table data={removePairs(props.data,filterList)} setFocus={props.setFocus}/>
+              <Table data={props.data} filterList={filterList} setFocus={props.setFocus}/>
             </Page>
     
    
