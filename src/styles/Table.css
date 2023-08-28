@@ -11,6 +11,14 @@ table table{
 
   td{
     padding: 1rem;
+    max-width: 30rem;
+    word-break: break-all;
+  }
+
+  table .alert{
+    background-color: hsl(var(--accent),var(--light));
+    width:100%;
+    height:100%;
   }
   .oddRow{
     background-color: hsl(var(--color-2),var(--lightest));
@@ -33,6 +41,7 @@ table table{
     word-break: keep-all;
   }
   
+
   .badge-container{
    
   }
