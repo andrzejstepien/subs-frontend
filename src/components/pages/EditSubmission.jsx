@@ -1,3 +1,4 @@
+import {API} from '../../API.mjs'
 import Page from "./Page"
 import Dropdown from "../Dropdown"
 import { useState, useEffect } from "react"
@@ -29,32 +30,34 @@ export default (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.dir({
+        const sendData = {
             id: props.data.id,
             story_id: props.idsTable.story[data.story],
             pub_id: props.idsTable.pub[data.pub],
             date_submitted: data.submitted,
             date_responded: data.responded,
             response_id: props.idsTable.response[data.response]
-        })}
+        }
+        API.post('submission/edit',sendData)
+       }
 
-    return <Page heading="Edit Submission">
+    return <Page heading={`Edit Submission #${props.data.id}`}>
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="stories">Story:</label>
-                <Dropdown name="stories" options={props.formOptions.stories} default={props.data.Story} value={data.story} handleChange={handleChange} />
+                <Dropdown name="stories" options={props.formOptions.stories} value={data.story} handleChange={handleChange} />
                 <label htmlFor="publishers">Publisher:</label>
-                <Dropdown name="publishers" options={props.formOptions.pubs} default={props.data.Publication} value={data.pub} handleChange={handleChange} />
+                <Dropdown name="publishers" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} />
             </div>
 
             <label htmlFor="queryAfter">Query After:</label>
             <input type="number" name="queryAfter" value={data.queryAfter} onChange={handleChange}></input>
             <label htmlFor="submitted">Submitted::</label>
-            <input type="date" name="submitted" value={data.submitted} onChange={handleChange}></input>
+            <input type="date" name="submitted" value={data.submitted??""} onChange={handleChange}></input>
             <label htmlFor="responded">Responded:</label>
-            <input type="date" name="responded" value={data.responded} onChange={handleChange}></input>
+            <input type="date" name="responded" value={data.responded??""} onChange={handleChange}></input>
             <label htmlFor="response">Response:</label>
-            <Dropdown name="response" options={props.formOptions.responses} default={data.response} value={data.response} handleChange={handleChange} />
+            <Dropdown name="response" options={props.formOptions.responses} value={data.response} handleChange={handleChange} />
             <div>
                 <button type="submit" >SUBMIT</button>
             </div>

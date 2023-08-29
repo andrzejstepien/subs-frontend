@@ -64,5 +64,6 @@ header {
 .page{
   width:max-content;
   margin:auto;
+  background-color: hsl(var(--color-4),var(--lightest));
+  border-radius: 1rem;
 }
-
