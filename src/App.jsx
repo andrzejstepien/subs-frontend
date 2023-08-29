@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react'
 import { API } from './API.mjs'
 
 function App() {
+  const [idsTable, setIdsTable] = useState({})
   const [submissionsData,setSubmissionsData] = useState([{}])
   const [storiesPageData, setStoriesPageData] = useState([])
   const [pubsPageData, setPubsPageData] = useState([1,1,1])
@@ -56,6 +57,9 @@ function App() {
     API.get("formOptions").then(res=>{
       setFormOptions(res.data)
     })
+    API.get("idsTable").then(res=>{
+      setIdsTable(res.data)
+    })
   },[])
   useEffect(() => {
     const pages = {}
@@ -84,7 +88,7 @@ function App() {
   useEffect(()=>{
     const pages = {}
     for (const row of submissionsData) {
-      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions}/>
+      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable}/>
     }
     setPageDirectory(prev=>{
       return{
