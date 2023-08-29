@@ -8,11 +8,13 @@ import SingleStory from './components/pages/SingleStory'
 import SinglePublication from './components/pages/SinglePublication'
 import Publications from './components/pages/Publications'
 import EditSubmission from './components/pages/EditSubmission'
+import Spinner from './components/Loader'
 import { daysSince } from './functions/utilities.mjs'
 import { useState, useEffect } from 'react'
 import { API } from './API.mjs'
 
 function App() {
+  const [isWaiting, setIsWaiting] = useState(false)
   const [idsTable, setIdsTable] = useState({})
   const [submissionsData, setSubmissionsData] = useState([{}])
   const [storiesPageData, setStoriesPageData] = useState([])
@@ -27,7 +29,6 @@ function App() {
     SUBMIT: <NewSubmission formOptions={formOptions} />,
     "NEW STORY": <NewStory formOptions={formOptions} />
   }
-
   const getStoriesPageData = () => {
     API.get('page/stories').then(res => {
       const rows = res.data.map(e => {
@@ -67,10 +68,10 @@ function App() {
       setIdsTable(res.data)
     })
   }
-  const addPagesToDirectory = (array,fn) => {
+  const addPagesToDirectory = (array, fn) => {
     const pages = {}
-    for (const row of array){
-      fn(row,pages)
+    for (const row of array) {
+      fn(row, pages)
     }
     setPageDirectory(prev => {
       return {
@@ -79,24 +80,23 @@ function App() {
       }
     })
   }
-  const addStoryPagesToDirectory = () =>{
+  const addStoryPagesToDirectory = () => {
     addPagesToDirectory(
       storiesPageData,
-      (row,pages)=>{return pages[row.Title] = <SingleStory data={row} setFocus={setFocus} />})
+      (row, pages) => { return pages[row.Title] = <SingleStory data={row} setFocus={setFocus} /> })
   }
-  const addPubPagesToDirectory = () =>{
+  const addPubPagesToDirectory = () => {
     addPagesToDirectory(
       pubsPageData,
-      (row,pages)=>{return pages[row.Title] = <SinglePublication data={row} setFocus={setFocus} />}
+      (row, pages) => { return pages[row.Title] = <SinglePublication data={row} setFocus={setFocus} /> }
     )
   }
   const addSubPagesToDirectory = () => {
     addPagesToDirectory(
       submissionsData,
-      (row,pages)=>{return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} />}
+      (row, pages) => { return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/> }
     )
   }
-
   useEffect(() => {
     getStoriesPageData()
     getPubsPageData()
@@ -111,9 +111,22 @@ function App() {
     addPubPagesToDirectory()
   }, [pubsPageData])
   useEffect(() => {
-    
-
+    addSubPagesToDirectory()
   }, [submissionsData])
+  const handleSubmit = async (event,endpoint,sendData,refresh) => {
+    event.preventDefault()
+    try {
+      setIsWaiting(true)
+      const res = await API.post(endpoint, sendData)
+      console.log(res)
+    } catch (error) {
+      console.error()
+    } finally { 
+      await refresh() 
+      setFocus("SUBMISSIONS")
+      setIsWaiting(false)
+    }
+  }
 
 
 
@@ -123,6 +136,7 @@ function App() {
   return (
     <>
       <div className="main-wrapper">
+        {isWaiting&&<Spinner/>}
         <Sidebar setFocus={setFocus} pageKeys={Object.keys(sidebarPages).slice(0, 5)} />
         <div className="middle">
           {sidebarPages[focus] ?? pageDirectory[focus]}

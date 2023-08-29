@@ -2,8 +2,7 @@ import {API} from '../../API.mjs'
 import Page from "./Page"
 import Dropdown from "../Dropdown"
 import { useState, useEffect } from "react"
-import { ddmmyyyyToyyyymmdd } from "../../functions/utilities.mjs"
-import { yyyymmddTommddyyyy } from "../../functions/utilities.mjs"
+import Spinner from '../Loader'
 export default (props) => {
     const [data, setData] = useState({
         id: props.data.id,
@@ -26,10 +25,6 @@ export default (props) => {
         })
         }
 
-    
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
         const sendData = {
             id: props.data.id,
             story_id: props.idsTable.story[data.story],
@@ -38,11 +33,10 @@ export default (props) => {
             date_responded: data.responded,
             response_id: props.idsTable.response[data.response]
         }
-        API.post('submission/edit',sendData)
-       }
+       
 
     return <Page heading={`Edit Submission #${props.data.id}`}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(event)=>{props.handleSubmit(event,'submission/edit',sendData,props.refresh)}}>
             <div>
                 <label htmlFor="stories">Story:</label>
                 <Dropdown name="stories" options={props.formOptions.stories} value={data.story} handleChange={handleChange} />

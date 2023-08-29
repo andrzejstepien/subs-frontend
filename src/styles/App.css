@@ -2,6 +2,7 @@
 @import 'Sidebar.css';
 @import 'Variables.css';
 @import 'singlePageContainer.css';
+@import 'Loader.css';
 *,
 *::before,
 *::after {
@@ -67,3 +68,8 @@ header {
   background-color: hsl(var(--color-4),var(--lightest));
   border-radius: 1rem;
 }
+
+
+
+
+  
