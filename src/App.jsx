@@ -14,91 +14,107 @@ import { API } from './API.mjs'
 
 function App() {
   const [idsTable, setIdsTable] = useState({})
-  const [submissionsData,setSubmissionsData] = useState([{}])
+  const [submissionsData, setSubmissionsData] = useState([{}])
   const [storiesPageData, setStoriesPageData] = useState([])
-  const [pubsPageData, setPubsPageData] = useState([1,1,1])
+  const [pubsPageData, setPubsPageData] = useState([1, 1, 1])
   const [focus, setFocus] = useState("SUBMISSIONS")
   const [pageDirectory, setPageDirectory] = useState([])
   const [formOptions, setFormOptions] = useState({})
   const sidebarPages = {
-  SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
-  STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
-  PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} />,
-  SUBMIT: <NewSubmission formOptions={formOptions}/>,
-  "NEW STORY": <NewStory formOptions={formOptions}/>}
+    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
+    STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
+    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} />,
+    SUBMIT: <NewSubmission formOptions={formOptions} />,
+    "NEW STORY": <NewStory formOptions={formOptions} />
+  }
 
-
-
-
-  useEffect(() => {
+  const getStoriesPageData = () => {
     API.get('page/stories').then(res => {
-      const rows = res.data.map(e=>{
-        e.Edit = <button onClick={()=>{setFocus(`EDITSTORY${e.id}`)}}>EDIT</button>
-          return e
+      const rows = res.data.map(e => {
+        e.Edit = <button onClick={() => { setFocus(`EDITSTORY${e.id}`) }}>EDIT</button>
+        return e
       })
       setStoriesPageData(rows)
     })
-    API.get('page/pubs').then(res=>{
-      const rows = res.data.map(e=>{
-        e.Edit = <button onClick={()=>{setFocus(`EDITPUB${e.id}`)}}>EDIT</button>
-          return e
+  }
+  const getPubsPageData = () => {
+    API.get('page/pubs').then(res => {
+      const rows = res.data.map(e => {
+        e.Edit = <button onClick={() => { setFocus(`EDITPUB${e.id}`) }}>EDIT</button>
+        return e
       })
       setPubsPageData(rows)
     })
-    API.get("submissions").then(res=>{
-      setSubmissionsData(prev=>{
-        return res.data.map(e=>{
-          e['Days Out'] = e.Response==="Pending"?daysSince(e.Submitted):daysSince(e.Submitted,e.Responded)
-          e.Edit = <button onClick={()=>{setFocus(`EDITSUB${e.id}`)}}>EDIT</button>
+  }
+  const getSubmissionsData = () => {
+    API.get("submissions").then(res => {
+      setSubmissionsData(prev => {
+        return res.data.map(e => {
+          e['Days Out'] = e.Response === "Pending" ? daysSince(e.Submitted) : daysSince(e.Submitted, e.Responded)
+          e.Edit = <button onClick={() => { setFocus(`EDITSUB${e.id}`) }}>EDIT</button>
           return e
         })
       })
     })
-    API.get("formOptions").then(res=>{
+  }
+  const getFormOptions = () => {
+    API.get("formOptions").then(res => {
       setFormOptions(res.data)
     })
-    API.get("idsTable").then(res=>{
+  }
+  const getIdsTable = () => {
+    API.get("idsTable").then(res => {
       setIdsTable(res.data)
     })
-  },[])
+  }
+  const addPagesToDirectory = (array,fn) => {
+    const pages = {}
+    for (const row of array){
+      fn(row,pages)
+    }
+    setPageDirectory(prev => {
+      return {
+        ...prev,
+        ...pages
+      }
+    })
+  }
+  const addStoryPagesToDirectory = () =>{
+    addPagesToDirectory(
+      storiesPageData,
+      (row,pages)=>{return pages[row.Title] = <SingleStory data={row} setFocus={setFocus} />})
+  }
+  const addPubPagesToDirectory = () =>{
+    addPagesToDirectory(
+      pubsPageData,
+      (row,pages)=>{return pages[row.Title] = <SinglePublication data={row} setFocus={setFocus} />}
+    )
+  }
+  const addSubPagesToDirectory = () => {
+    addPagesToDirectory(
+      submissionsData,
+      (row,pages)=>{return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} />}
+    )
+  }
+
   useEffect(() => {
-    const pages = {}
-      for (const row of storiesPageData) {
-        pages[row.Title] = <SingleStory data={row} setFocus={setFocus}/>
-      }
-      setPageDirectory(prev=>{
-        return{
-          ...prev,
-          ...pages
-        }
-      })
-  },[storiesPageData])
-  useEffect(()=>{
-    const pages = {}
-    for (const row of pubsPageData) {
-      pages[row.Title] = <SinglePublication data={row} setFocus={setFocus}/>
-    }
-    setPageDirectory(prev=>{
-      return{
-        ...prev,
-        ...pages
-      }
-    })
-  },[pubsPageData])
-  useEffect(()=>{
-    const pages = {}
-    for (const row of submissionsData) {
-      pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable}/>
-    }
-    setPageDirectory(prev=>{
-      return{
-        ...prev,
-        ...pages
-      }
-    })
+    getStoriesPageData()
+    getPubsPageData()
+    getSubmissionsData()
+    getFormOptions()
+    getIdsTable()
+  }, [])
+  useEffect(() => {
+    addStoryPagesToDirectory()
+  }, [storiesPageData])
+  useEffect(() => {
+    addPubPagesToDirectory()
+  }, [pubsPageData])
+  useEffect(() => {
     
-  },[submissionsData])
- 
+
+  }, [submissionsData])
+
 
 
 
@@ -109,7 +125,7 @@ function App() {
       <div className="main-wrapper">
         <Sidebar setFocus={setFocus} pageKeys={Object.keys(sidebarPages).slice(0, 5)} />
         <div className="middle">
-          {sidebarPages[focus]??pageDirectory[focus]}
+          {sidebarPages[focus] ?? pageDirectory[focus]}
         </div>
       </div>
     </>
