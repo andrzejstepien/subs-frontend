@@ -10,9 +10,17 @@ export const removePairs = (array,keys) => {
   }
 
   export const daysSince = (str,str2) => {
-    const then = DateTime.fromFormat(str,"dd/MM/yyyy")  
-    const now = str2?DateTime.fromFormat(str2,"dd/MM/yyyy"):DateTime.local()
+    const then = DateTime.fromFormat(str,"yyyy-MM-dd")  
+    const now = str2?DateTime.fromFormat(str2,"yyyy-MM-dd"):DateTime.local()
     return Interval.fromDateTimes(then,now).count('days')
+  }
+
+  export const ddmmyyyyToyyyymmdd = (str) =>{
+    return DateTime.fromFormat(str,'dd/MM/yyyy').toFormat('yyyy-MM-dd').toString()
+  }
+
+  export const yyyymmddTommddyyyy = (str) =>{
+    return DateTime.fromFormat(str,'yyyy-MM-dd').toFormat('dd/MM/yyyy').toString()
   }
 
   export const renderClassNames = (array) => {
@@ -20,5 +28,5 @@ export const removePairs = (array,keys) => {
     for (const className of array) {
       string = string+className+" "
     }
-    return string
+    return string.trim()
   }

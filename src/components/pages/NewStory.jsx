@@ -32,7 +32,7 @@ export default (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        API.post("stories", data)
+        API.post("story", data)
     }
     const handleChange = (event) => {
         const value = event.target.value

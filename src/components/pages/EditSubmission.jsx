@@ -1,28 +1,63 @@
 import Page from "./Page"
 import Dropdown from "../Dropdown"
+import { useState, useEffect } from "react"
+import { ddmmyyyyToyyyymmdd } from "../../functions/utilities.mjs"
+import { yyyymmddTommddyyyy } from "../../functions/utilities.mjs"
 export default (props) => {
-    const data = props.data
-    console.dir(data)
-    return<Page heading="Edit Submission">
-    <form>
-        <div>
-        <label htmlFor="stories">Story:</label>
-    <Dropdown name="stories" options={props.formOptions.stories} default={data.Story}/>
-    <label htmlFor="publishers">Publisher:</label>
-    <Dropdown name="publishers" options={props.formOptions.pubs} default={data.Publication}/>
-        </div>
+    const [data, setData] = useState({
+        id: props.data.id,
+        story: props.data.Story,
+        pub: props.data.Publication,
+        queryAfter: props.data['Query After'],
+        submitted: props.data['Submitted'],
+        responded: props.data['Responded'],
+        response: props.data.Response
+    })
+    useEffect(()=>{
+        console.dir(data)
+    },[data])
     
-    <label htmlFor="queryAfter">Query After:</label>
-    <input type="number" name="queryAfter" value={data['Query After']}></input>
-    <label htmlFor="submitted">Submitted::</label>
-    <input type="date" name="submitted" value={data['Submitted']}></input>
-    <label htmlFor="responded">Responded:</label>
-    <input type="date" name="responded" value={data['Responded']}></input>
-    <label htmlFor="response">Response:</label>
-    <input type="text" name="response" value={data['Responded']}></input>
-    <div>
-    <button type="submit">SUBMIT</button>
-    </div>
-    </form>
+    const handleChange = (event) => {
+        const value = event.target.value
+        setData({
+            ...data,
+            [event.target.name]: value
+        })
+        }
+
+    
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        console.dir({
+            id: props.data.id,
+            story_id: props.idsTable.story[data.story],
+            pub_id: props.idsTable.pub[data.pub],
+            date_submitted: data.submitted,
+            date_responded: data.responded,
+            response_id: props.idsTable.response[data.response]
+        })}
+
+    return <Page heading="Edit Submission">
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="stories">Story:</label>
+                <Dropdown name="stories" options={props.formOptions.stories} default={props.data.Story} value={data.story} handleChange={handleChange} />
+                <label htmlFor="publishers">Publisher:</label>
+                <Dropdown name="publishers" options={props.formOptions.pubs} default={props.data.Publication} value={data.pub} handleChange={handleChange} />
+            </div>
+
+            <label htmlFor="queryAfter">Query After:</label>
+            <input type="number" name="queryAfter" value={data.queryAfter} onChange={handleChange}></input>
+            <label htmlFor="submitted">Submitted::</label>
+            <input type="date" name="submitted" value={data.submitted} onChange={handleChange}></input>
+            <label htmlFor="responded">Responded:</label>
+            <input type="date" name="responded" value={data.responded} onChange={handleChange}></input>
+            <label htmlFor="response">Response:</label>
+            <Dropdown name="response" options={props.formOptions.responses} default={data.response} value={data.response} handleChange={handleChange} />
+            <div>
+                <button type="submit" >SUBMIT</button>
+            </div>
+        </form>
     </Page>
 }

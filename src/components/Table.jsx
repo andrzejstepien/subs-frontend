@@ -13,7 +13,7 @@ export default function Table(props) {
   const renderCell = (key, row, i, j) => {
     if (filterList.includes(key)) { return null }
     const Cell = (props) => {
-      return <td key={"" + i + j}>{props.children}</td>
+      return <td key={row[key]+i+j}>{props.children}</td>
     }
     const contents = row[key]
     if (Array.isArray(contents)) {
@@ -36,21 +36,20 @@ export default function Table(props) {
   const renderRows = (data) => {
     return data.map((row, i) => {
       const cells = Object.keys(row).map((key, j) => {
-        return <>{renderCell(key, row, i, j)}  </>    
+        return <>{renderCell(key, row, i, j)}</>    
       })
       const classNames = [
         `row ${oddOrEven(i)} `,
         row['Query After'] - row['Days Out'] < 0 && row['Responded'] === '-' ? "alert" : ""
       ]
-      return <tr key={i}
-        className={renderClassNames(classNames)}>{cells}</tr>
+      return <tr key={""+row.id+i} className={renderClassNames(classNames)}>{cells}</tr>
     })
   }
   const renderHeaders = (data) => {
     return <tr className="rowHeader">
       {Object.keys(data[0]).map((heading, i) => {
         if (filterList.includes(heading)) { return }
-        return <th key={"" + heading + i}>{heading}</th>
+        return <th key={heading+i}>{heading}</th>
       })}
     </tr>
   }
