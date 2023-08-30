@@ -1,0 +1,8 @@
+form{
+    font-size: 2rem;
+
+}
+input,select {
+    float:right;
+    font-size: 2rem;
+}
