@@ -12,12 +12,12 @@ export default (props) => {
     return <>
     <Page heading="New Submission" >
     <form>
-    <label htmlFor="stories">Story:</label>
-    <Dropdown name="stories" options={props.formOptions.stories}/>
-    <label htmlFor="publishers">Publisher:</label>
-    <Dropdown name="publishers" options={props.formOptions.stories}/>
-    <label htmlFor="date">Date:</label>
-    <input type="date"></input>
+    <label htmlFor="stories">Story:<Dropdown name="stories" options={props.formOptions.stories}/></label>
+    
+    <label htmlFor="publishers">Publisher:<Dropdown name="publishers" options={props.formOptions.stories}/></label>
+    
+    <label htmlFor="date">Date:<input type="date"></input></label>
+    
     </form>
     </Page>
     </>

@@ -37,34 +37,29 @@ export default (props) => {
 
     return <Page heading={`Edit Submission #${props.data.id}`}>
         <form onSubmit={(event) => { props.handleSubmit(event, 'submission/edit', sendData, props.refresh) }}>
-            <div className='form-row'>
+       
                 <label htmlFor="stories">Story: <Dropdown name="stories" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
                 
-            </div>
-            <div className='form-row'>
+         
                 <label htmlFor="publishers">Publisher: <Dropdown name="publishers" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
                 
-            </div>
-            <div className='form-row'>
+         
                 <label htmlFor="queryAfter">Query After: <input type="number" name="queryAfter" value={data.queryAfter} onChange={handleChange}></input></label>
                 
-            </div>
-            <div className='form-row'>
+       
                 <label htmlFor="submitted">Submitted: <input type="date" name="submitted" value={data.submitted ?? ""} onChange={handleChange}></input></label>
-                
-            </div>
-            <div className='form-row'>
+  
                 <label htmlFor="responded">Responded: <input type="date" name="responded" value={data.responded ?? ""} onChange={handleChange}></input></label>
                 
-            </div>
-            <div className='form-row'>
+       
+          
                 <label htmlFor="response">Response: <Dropdown name="response" options={props.formOptions.responses} value={data.response} handleChange={handleChange} /></label>
                 
-            </div>
+       
 
-            <div className='form-row'>
+         
                 <button type="submit" >SUBMIT</button>
-            </div>
+           
         </form>
     </Page>
 }

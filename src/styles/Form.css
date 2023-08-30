@@ -9,14 +9,29 @@ form{
 
 }
 
+fieldset{
+    width: fit-content;
+    padding:8px;
+}
+
 label{
     border-radius: 1rem;
     padding:1rem;
+    width:100%;
     display:flex;
+    justify-content:space-between;
     align-items: center;
-    
+    font-weight: bold;
+}
+fieldset > label{
+    justify-content: flex-start;
+    font-weight: normal;
+}
+legend{
+    font-weight: bold;
 }
 input,select {
+    max-width: 30rem;
     float:right;
     font-size: 2rem;
     padding:1rem;

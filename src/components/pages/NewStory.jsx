@@ -54,14 +54,14 @@ export default (props) => {
 
     return <Page heading="New Story">
     <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input name="title" type="text"
+        <label htmlFor="title">Title<input name="title" type="text"
             value={data.title}
-            onChange={handleChange} />
-        <label htmlFor="word_count">Wordcount</label>
-        <input name="word_count" type="number"
+            onChange={handleChange} /></label>
+        
+        <label htmlFor="word_count">Wordcount<input name="word_count" type="number"
             value={data.word_count}
-            onChange={handleChange} />
+            onChange={handleChange} /></label>
+        
         <Checkboxes name="genres"
             options={Object.keys(genres)}
             onChange={handleToggle}
