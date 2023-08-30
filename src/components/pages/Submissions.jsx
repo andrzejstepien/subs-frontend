@@ -5,9 +5,12 @@ export default (props) => {
       "id",
       "Query After"
     ]
+    const highlights =[
+      ['Response','Pending']
+    ]
     const data = props.data 
     return <Page heading="Submissions">
-      <Table data={data} filterList={filterList} setFocus={props.setFocus}/>
+      <Table data={data} filterList={filterList} setFocus={props.setFocus} highlights={highlights}/>
     </Page>
     
 }

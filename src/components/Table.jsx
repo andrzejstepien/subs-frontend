@@ -7,9 +7,7 @@ export default function Table(props) {
   const data = props?.data ?? []
   const filterList = props?.filterList ?? []
   if (data.length === 0) { return <p>Nothing to see here...</p> }
-  const oddOrEven = (n) => {
-    return ["evenRow", "oddRow"][n % 2]
-  }
+  
   const renderCell = (key, row, i, j) => {
     if (filterList.includes(key)) { return null }
     const Cell = (props) => {
@@ -33,13 +31,20 @@ export default function Table(props) {
     }
     return <Cell>{contents}</Cell>
   }
+  const oddOrEven = (n) => {
+    return ["evenRow", "oddRow"][n % 2]
+  }
   const renderRows = (data) => {
     return data.map((row, i) => {
       const cells = Object.keys(row).map((key, j) => {
         return <>{renderCell(key, row, i, j)}</>    
       })
+      const isHighlight = (array,row) =>{
+        return array.some(e=>row[e[0]]===e[1])
+      }
       const classNames = [
         `row ${oddOrEven(i)} `,
+        isHighlight(props.highlights,row)?'highlight':"no-highlight",
         row['Query After'] - row['Days Out'] < 0 && row['Responded'] === '-' ? "alert" : ""
       ]
       return <tr key={""+row.id+i} className={renderClassNames(classNames)}>{cells}</tr>

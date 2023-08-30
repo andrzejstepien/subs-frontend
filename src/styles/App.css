@@ -3,6 +3,7 @@
 @import 'Variables.css';
 @import 'singlePageContainer.css';
 @import 'Loader.css';
+@import 'Form.css';
 *,
 *::before,
 *::after {
@@ -47,7 +48,7 @@ header {
 
 
 .main-wrapper{
-  width: 80%;
+  width: 100%;
   margin:auto;
   display: grid;
   justify-items:stretch;
