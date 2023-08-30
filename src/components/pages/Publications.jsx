@@ -4,7 +4,8 @@ import Table from "../Table"
 export default (props)=>{
     console.dir(props.data)
     const filterList = [
-      'Submissions'
+      'Submissions',
+      "ID"
     ]
 console.log("YOOOO!")
 console.dir(props.data)

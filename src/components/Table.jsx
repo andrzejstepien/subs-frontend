@@ -40,11 +40,12 @@ export default function Table(props) {
         return <>{renderCell(key, row, i, j)}</>    
       })
       const isHighlight = (array,row) =>{
+        if(!array || !row){return false}
         return array.some(e=>row[e[0]]===e[1])
       }
       const classNames = [
         `row ${oddOrEven(i)} `,
-        isHighlight(props.highlights,row)?'highlight':"no-highlight",
+        isHighlight(props?.highlights,row)?'highlight':"",
         row['Query After'] - row['Days Out'] < 0 && row['Responded'] === '-' ? "alert" : ""
       ]
       return <tr key={""+row.id+i} className={renderClassNames(classNames)}>{cells}</tr>

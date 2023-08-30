@@ -32,6 +32,7 @@ function App() {
   const getStoriesPageData = () => {
     API.get('page/stories').then(res => {
       const rows = res.data.map(e => {
+        e.Subs = e.Submissions.length
         e.Edit = <button onClick={() => { setFocus(`EDITSTORY${e.id}`) }}>EDIT</button>
         return e
       })
@@ -41,6 +42,7 @@ function App() {
   const getPubsPageData = () => {
     API.get('page/pubs').then(res => {
       const rows = res.data.map(e => {
+        e.Subs = e.Submissions.length
         e.Edit = <button onClick={() => { setFocus(`EDITPUB${e.id}`) }}>EDIT</button>
         return e
       })
@@ -123,8 +125,8 @@ function App() {
       console.error()
     } finally { 
       await refresh() 
-      setFocus("SUBMISSIONS")
       setIsWaiting(false)
+      setFocus("SUBMISSIONS")
     }
   }
 

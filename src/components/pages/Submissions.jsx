@@ -3,7 +3,10 @@ import Page from "./Page.jsx"
 export default (props) => {
     const filterList=[
       "id",
-      "Query After"
+      "Query After",
+      "story_id",
+      "pub_id",
+      "response_id"
     ]
     const highlights =[
       ['Response','Pending']

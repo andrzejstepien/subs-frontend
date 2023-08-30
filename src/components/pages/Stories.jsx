@@ -4,7 +4,8 @@ import { removePairs } from "../../functions/utilities.mjs"
 export default (props) => {
     console.dir(props.data)
       const filterList = [
-        'Submissions'
+        'Submissions',
+        'ID'
       ]
       
 

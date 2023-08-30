@@ -1,4 +1,4 @@
-@import 'Variables.css';
+
 table{
     font-size: 1.6rem;
     width: fit-content;
@@ -21,13 +21,13 @@ table table{
   .alert{
     background-color: hsl(var(--alert-color),var(--light));
   }
-  .oddRow.no-highlight{
+  .oddRow{
     background-color: hsl(var(--odd-color),var(--lightest));
   }
   .oddRow.highlight{
     background-color: hsl(var(--odd-color),var(--light));
   }
-  .evenRow.no-highlight{
+  .evenRow{
     background-color: hsl(var(--even-color),var(--lightest));
   }
   .evenRow.highlight{
