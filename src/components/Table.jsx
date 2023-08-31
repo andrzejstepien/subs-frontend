@@ -74,8 +74,14 @@ export default function Table(props) {
         const copy = [...data]
         const key = sortBy.sortBy
         return copy.sort((a, b) => {
-          const valueA = typeof a[key] === 'number'?a[key]:isDate(a[key])?DateTime.fromFormat(a[key]??'9999-99-99','yyyy-MM-dd').valueOf():a[key]
-          const valueB = typeof b[key] === 'number'?b[key]:isDate(b[key])?DateTime.fromFormat(b[key]??'9999-99-99','yyyy-MM-dd').valueOf():b[key]
+          const determineSortValue = (val) => {
+            if(val===null){return 253370761200000}
+            if(typeof val === 'number'){return val}
+            if(isDate(val)){return DateTime.fromFormat(val,'yyyy-MM-dd').valueOf()}
+            return val
+          }
+          const valueA = determineSortValue(a[key])
+          const valueB = determineSortValue(b[key])
           if (valueA < valueB) {
             return sortBy.isAscending ? -1 : 1
           }
@@ -89,7 +95,7 @@ export default function Table(props) {
     
   }
   const renderHeaders = (data) => {
-    const requestSort = (key) => {
+    const changeSortBy = (key) => {
       if (sortBy.sortBy === key) {
         setSortBy(prev => {
           return {
@@ -100,7 +106,7 @@ export default function Table(props) {
       } else {
         setSortBy(prev => {
           return {
-            ...prev,
+            isAscending:false,
             sortBy: key
           }
         })
@@ -118,9 +124,9 @@ export default function Table(props) {
           if(sortBy.sortBy===key){
             return sortBy.isAscending?"\u2191":"\u2193"
           }
-          return" "
+          return"\u2002"
         }
-        return <th key={heading + i}><button onClick={isSortable()?() => { requestSort(heading) }:()=>{}}>{renderArrows(heading)+" "+heading+" "+renderArrows(heading)}</button></th>
+        return <th key={heading + i}><button onClick={isSortable()?() => { changeSortBy(heading) }:()=>{}}>{renderArrows(heading)+" "+heading+" "+renderArrows(heading)}</button></th>
       })}
     </tr>
   }
