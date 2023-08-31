@@ -12,7 +12,7 @@ console.dir(props.data)
     
 
   return  <Page heading="Publications">
-            <Table data={removePairs(props.data,filterList)} setFocus={props.setFocus}/>
+            <Table data={removePairs(props.data,filterList)} setFocus={props.setFocus} setState={props.setState}/>
           </Page>
   
  

@@ -1,17 +1,20 @@
 import Badges from "./Badges"
+import { useState, useEffect } from "react"
 import { renderClassNames, removePairs } from "../functions/utilities.mjs"
+import { DateTime } from "luxon"
 export default function Table(props) {
   //props.data ~ [{row1},{row2},{etc}]
   //each row ~ [{id:1, title:"The Red Room", etc},
   //each row ~ {id:1, title:"The Signalman", etc}]
   const data = props?.data ?? []
   const filterList = props?.filterList ?? []
+
   if (data.length === 0) { return <p>Nothing to see here...</p> }
-  
-  const renderCell = (key, row, i, j) => {
+
+  const renderCell = (key, row, i, j, fn) => {
     if (filterList.includes(key)) { return null }
     const Cell = (props) => {
-      return <td key={row[key]+i+j}>{props.children}</td>
+      return <td key={row[key] + i + j}>{props.children}</td>
     }
     const contents = row[key]
     if (Array.isArray(contents)) {
@@ -37,33 +40,87 @@ export default function Table(props) {
   const renderRows = (data) => {
     return data.map((row, i) => {
       const cells = Object.keys(row).map((key, j) => {
-        return <>{renderCell(key, row, i, j)}</>    
+        return <>{renderCell(key, row, i, j)}</>
       })
-      const isHighlight = (array,row) =>{
-        if(!array || !row){return false}
-        return array.some(e=>row[e[0]]===e[1])
+      const isHighlight = (array, row) => {
+        if (!array || !row) { return false }
+        return array.some(e => row[e[0]] === e[1])
       }
       const classNames = [
         `row ${oddOrEven(i)} `,
-        isHighlight(props?.highlights,row)?'highlight':"",
+        isHighlight(props?.highlights, row) ? 'highlight' : "",
         row['Query After'] - row['Days Out'] < 0 && row['Responded'] === '-' ? "alert" : ""
       ]
-      return <tr key={""+row.id+i} className={renderClassNames(classNames)}>{cells}</tr>
+      return <tr key={row.id} className={renderClassNames(classNames)}>{cells}</tr>
     })
   }
-  const renderHeaders = (data) => {
+  const [sortBy, setSortBy] = useState({
+    sortBy: null,
+    isAscending: true
+  })
+  useEffect(() => {
+    sort()
+    //console.dir(sortBy)
+  }, [sortBy])
+  const sort = () => {
+    const isDate = (str) =>{
+        if(str && DateTime.fromFormat(str,'yyyy-MM-dd').isValid){
+            return true
+        }
+        return false
+    }
+    if(props.setState){
+      props.setState(prev => {
+        const copy = [...data]
+        const key = sortBy.sortBy
+        return copy.sort((a, b) => {
+          const valueA = typeof a[key] === 'number'?a[key]:isDate(a[key])?DateTime.fromFormat(a[key]??'9999-99-99','yyyy-MM-dd').valueOf():a[key]
+          const valueB = typeof b[key] === 'number'?b[key]:isDate(b[key])?DateTime.fromFormat(b[key]??'9999-99-99','yyyy-MM-dd').valueOf():b[key]
+          if (valueA < valueB) {
+            return sortBy.isAscending ? -1 : 1
+          }
+          if (valueA > valueB) {
+            return sortBy.isAscending ? 1 : -1
+          }
+          return 0
+        })
+      })
+    }else{console.error("props.setState does not exist!")}
+    
+  }
+  const renderHeaders = (data, setState) => {
+    const requestSort = (key) => {
+      if (sortBy.sortBy === key) {
+        setSortBy(prev => {
+          return {
+            ...prev,
+            isAscending: !prev.isAscending
+          }
+        })
+      } else {
+        setSortBy(prev => {
+          return {
+            ...prev,
+            sortBy: key
+          }
+        })
+      }
+    }
     return <tr className="rowHeader">
       {Object.keys(data[0]).map((heading, i) => {
         if (filterList.includes(heading)) { return }
-        return <th key={heading+i}>{heading}</th>
+        const isSortable = () => {
+          if(data[0][heading]&&typeof data[0][heading] === 'object'){
+            return false}
+          return true
+        }
+        return <th key={heading + i}><button onClick={isSortable()?() => { requestSort(heading) }:()=>{}}>{heading}</button></th>
       })}
     </tr>
   }
-
-
   return <table>
     <tbody>
-      {renderHeaders(data)}
+      {renderHeaders(data, props.setState)}
       {renderRows(data)}
     </tbody>
   </table>

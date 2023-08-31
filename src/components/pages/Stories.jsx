@@ -12,7 +12,7 @@ export default (props) => {
       console.dir(props.setFocus)
 
     return  <Page heading="Stories" setFocus={props.setFocus}>
-              <Table data={props.data} filterList={filterList} setFocus={props.setFocus}/>
+              <Table data={props.data} filterList={filterList} setFocus={props.setFocus} setState={props.setState}/>
             </Page>
     
    

@@ -23,9 +23,9 @@ function App() {
   const [pageDirectory, setPageDirectory] = useState([])
   const [formOptions, setFormOptions] = useState({})
   const sidebarPages = {
-    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
-    STORIES: <Stories data={storiesPageData} setFocus={setFocus} />,
-    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} />,
+    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} setState={setSubmissionsData}/>,
+    STORIES: <Stories data={storiesPageData} setFocus={setFocus} setState={setStoriesPageData}/>,
+    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} setState={setPubsPageData}/>,
     SUBMIT: <NewSubmission formOptions={formOptions} />,
     "NEW STORY": <NewStory formOptions={formOptions} />
   }
@@ -130,7 +130,7 @@ function App() {
     }
   }
 
-
+  
 
 
 
