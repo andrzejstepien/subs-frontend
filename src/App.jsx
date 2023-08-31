@@ -22,13 +22,7 @@ function App() {
   const [focus, setFocus] = useState("SUBMISSIONS")
   const [pageDirectory, setPageDirectory] = useState([])
   const [formOptions, setFormOptions] = useState({})
-  const sidebarPages = {
-    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} setState={setSubmissionsData}/>,
-    STORIES: <Stories data={storiesPageData} setFocus={setFocus} setState={setStoriesPageData}/>,
-    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} setState={setPubsPageData}/>,
-    SUBMIT: <NewSubmission formOptions={formOptions} />,
-    "NEW STORY": <NewStory formOptions={formOptions} />
-  }
+  
   const getStoriesPageData = () => {
     API.get('page/stories').then(res => {
       const rows = res.data.map(e => {
@@ -99,6 +93,7 @@ function App() {
       (row, pages) => { return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/> }
     )
   }
+  
   useEffect(() => {
     getStoriesPageData()
     getPubsPageData()
@@ -116,6 +111,7 @@ function App() {
     addSubPagesToDirectory()
   }, [submissionsData])
   const handleSubmit = async (event,endpoint,sendData,refresh) => {
+    console.dir(sendData)
     event.preventDefault()
     try {
       setIsWaiting(true)
@@ -134,7 +130,13 @@ function App() {
 
 
 
-
+  const sidebarPages = {
+    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} setState={setSubmissionsData}/>,
+    STORIES: <Stories data={storiesPageData} setFocus={setFocus} setState={setStoriesPageData}/>,
+    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} setState={setPubsPageData}/>,
+    SUBMIT: <NewSubmission formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/>,
+    "NEW STORY": <NewStory formOptions={formOptions} idsTable={idsTable} refresh={getStoriesPageData} handleSubmit={handleSubmit}/>
+  }
   return (
     <>
       <div className="main-wrapper">

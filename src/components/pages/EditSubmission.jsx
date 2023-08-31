@@ -14,7 +14,8 @@ export default (props) => {
         response: props.data.Response
     })
     useEffect(() => {
-        console.dir(data)
+        //console.dir(data)
+        console.dir(sendData)
     }, [data])
 
     const handleChange = (event) => {
@@ -38,10 +39,10 @@ export default (props) => {
     return <Page heading={`Edit Submission #${props.data.id}`}>
         <form onSubmit={(event) => { props.handleSubmit(event, 'submission/edit', sendData, props.refresh) }}>
        
-                <label htmlFor="stories">Story: <Dropdown name="stories" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
+                <label htmlFor="stories">Story: <Dropdown name="story" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
                 
          
-                <label htmlFor="publishers">Publisher: <Dropdown name="publishers" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
+                <label htmlFor="publishers">Publisher: <Dropdown name="pub" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
                 
          
                 <label htmlFor="queryAfter">Query After: <input type="number" name="queryAfter" value={data.queryAfter} onChange={handleChange}></input></label>
