@@ -37,6 +37,16 @@ table table{
   .rowHeader{
     background-color: hsl(var(--color-1),var(--light));
   }
+  .rowHeader button{
+    width:100%;
+    min-width: max-content;
+    background-color: transparent;
+  }
+  td button{
+    background-color: transparent;
+    width: 100%;
+    line-height:100%;
+  }
 
   .badge{
     font-size: 1rem;
