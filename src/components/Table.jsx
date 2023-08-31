@@ -88,7 +88,7 @@ export default function Table(props) {
     }else{console.error("props.setState does not exist!")}
     
   }
-  const renderHeaders = (data, setState) => {
+  const renderHeaders = (data) => {
     const requestSort = (key) => {
       if (sortBy.sortBy === key) {
         setSortBy(prev => {
@@ -114,7 +114,13 @@ export default function Table(props) {
             return false}
           return true
         }
-        return <th key={heading + i}><button onClick={isSortable()?() => { requestSort(heading) }:()=>{}}>{heading}</button></th>
+        const renderArrows = (key) =>{
+          if(sortBy.sortBy===key){
+            return sortBy.isAscending?"\u2191":"\u2193"
+          }
+          return" "
+        }
+        return <th key={heading + i}><button onClick={isSortable()?() => { requestSort(heading) }:()=>{}}>{renderArrows(heading)+" "+heading+" "+renderArrows(heading)}</button></th>
       })}
     </tr>
   }
