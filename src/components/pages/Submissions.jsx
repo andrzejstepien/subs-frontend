@@ -13,7 +13,7 @@ export default (props) => {
     ]
     const data = props.data 
     return <Page heading="Submissions">
-      <Table data={data} filterList={filterList} setFocus={props.setFocus} highlights={highlights} setState={props.setState} sortByDefault="Submitted"/>
+      <Table data={data} filterList={filterList} setFocus={props.setFocus} highlights={highlights} sortByDefault="Submitted"/>
     </Page>
     
 }

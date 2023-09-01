@@ -133,8 +133,8 @@ function App() {
 
   const sidebarPages = {
     SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} setState={setSubmissionsData}/>,
-    STORIES: <Stories data={storiesPageData} setFocus={setFocus} setState={setStoriesPageData}/>,
-    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus} setState={setPubsPageData}/>,
+    STORIES: <Stories data={storiesPageData} setFocus={setFocus}/>,
+    PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus}/>,
     SUBMIT: <NewSubmission formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/>,
     "NEW STORY": <NewStory formOptions={formOptions} idsTable={idsTable} refresh={getStoriesPageData} handleSubmit={handleSubmit}/>
   }
