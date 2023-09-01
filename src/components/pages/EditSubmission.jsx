@@ -30,8 +30,8 @@ export default (props) => {
         id: props.data.id,
         story_id: props.idsTable.story[data.story],
         pub_id: props.idsTable.pub[data.pub],
-        date_submitted: data.submitted,
-        date_responded: data.responded,
+        date_submitted: data.submitted===""?null:data.submitted,
+        date_responded: data.responded===""?null:data.responded,
         response_id: props.idsTable.response[data.response]
     }
 
@@ -40,8 +40,6 @@ export default (props) => {
         <form onSubmit={(event) => { props.handleSubmit(event, 'submission/edit', sendData, props.refresh) }}>
        
                 <label htmlFor="stories">Story: <Dropdown name="story" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
-                
-         
                 <label htmlFor="publishers">Publisher: <Dropdown name="pub" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
                 
          

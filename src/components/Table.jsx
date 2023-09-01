@@ -6,13 +6,97 @@ export default function Table(props) {
   //props.data ~ [{row1},{row2},{etc}]
   //each row ~ [{id:1, title:"The Red Room", etc},
   //each row ~ {id:1, title:"The Signalman", etc}]
-  const data = props?.data ?? []
-  const filterList = props?.filterList ?? []
+  const [sortBy, setSortBy] = useState({
+    sortBy: props.sortByDefault??Object.keys(data[0])[0],
+    isAscending: false
+  })
+  useEffect(() => {
+    console.dir(sortBy)
+    //sort(props.setState,data,sortBy)
+  }, [sortBy])
+  useEffect(()=>{
+    //console.dir(sortBy)
+    //sort(props.setState,data,sortBy) 
+    console.log("data is ready!")
+  },[props?.data])
 
+  const filterList = props?.filterList ?? []
+  const sort = (data,sortBy) => {
+    const isDate = (str) =>{
+        if(str && DateTime.fromFormat(str,'yyyy-MM-dd').isValid){
+            return true
+        }
+        return false
+    }
+        const key = sortBy.sortBy
+        return data.sort((a, b) => {
+          const determineSortValue = (val) => {
+            if(val===null){return 253370761200000}
+            if(typeof val === 'number'){return val}
+            if(isDate(val)){return DateTime.fromFormat(val,'yyyy-MM-dd').valueOf()}
+            return val
+          }
+          const valueA = determineSortValue(a[key])
+          const valueB = determineSortValue(b[key])
+          if (valueA < valueB) {
+            return sortBy.isAscending ? -1 : 1
+          }
+          if (valueA > valueB) {
+            return sortBy.isAscending ? 1 : -1
+          }
+          return 0
+        })
+      
+ 
+    
+  }
+  const data = [...props?.data]
+  .map(e=>{
+    for (const filter of filterList) {
+      delete e[filter]
+    }
+    return e
+  }) ?? []
   if (data.length === 0) { return <p>Nothing to see here...</p> }
+  sort(data,sortBy)
+
+  const renderHeaders = (data) => {
+    const changeSortBy = (key) => {
+      if (sortBy.sortBy === key) {
+        setSortBy(prev => {
+          return {
+            ...prev,
+            isAscending: !prev.isAscending
+          }
+        })
+      } else {
+        setSortBy(prev => {
+          return {
+            isAscending:false,
+            sortBy: key
+          }
+        })
+      }
+    }
+    return <tr className="rowHeader">
+      {Object.keys(data[0]).map((heading, i) => {
+        const isSortable = () => {
+          if(data[0][heading]&&typeof data[0][heading] === 'object'){
+            return false}
+          return true
+        }
+        const renderArrows = (key) =>{
+          if(sortBy.sortBy===key){
+            return sortBy.isAscending?"\u2191":"\u2193"
+          }
+          return"\u2002"
+        }
+        return <th key={heading + i}><button onClick={isSortable()?() => { changeSortBy(heading) }:()=>{}}>{renderArrows(heading)+" "+heading+" "+renderArrows(heading)}</button></th>
+      })}
+    </tr>
+  }
 
   const renderCell = (key, row, i, j, fn) => {
-    if (filterList.includes(key)) { return null }
     const Cell = (props) => {
       return <td key={row[key] + i + j}>{props.children}</td>
     }
@@ -54,82 +138,7 @@ export default function Table(props) {
       return <tr key={row.id} className={renderClassNames(classNames)}>{cells}</tr>
     })
   }
-  const [sortBy, setSortBy] = useState({
-    sortBy: null,
-    isAscending: true
-  })
-  useEffect(() => {
-    sort()
-    //console.dir(sortBy)
-  }, [sortBy])
-  const sort = () => {
-    const isDate = (str) =>{
-        if(str && DateTime.fromFormat(str,'yyyy-MM-dd').isValid){
-            return true
-        }
-        return false
-    }
-    if(props.setState){
-      props.setState(prev => {
-        const copy = [...data]
-        const key = sortBy.sortBy
-        return copy.sort((a, b) => {
-          const determineSortValue = (val) => {
-            if(val===null){return 253370761200000}
-            if(typeof val === 'number'){return val}
-            if(isDate(val)){return DateTime.fromFormat(val,'yyyy-MM-dd').valueOf()}
-            return val
-          }
-          const valueA = determineSortValue(a[key])
-          const valueB = determineSortValue(b[key])
-          if (valueA < valueB) {
-            return sortBy.isAscending ? -1 : 1
-          }
-          if (valueA > valueB) {
-            return sortBy.isAscending ? 1 : -1
-          }
-          return 0
-        })
-      })
-    }else{console.error("props.setState does not exist!")}
-    
-  }
-  const renderHeaders = (data) => {
-    const changeSortBy = (key) => {
-      if (sortBy.sortBy === key) {
-        setSortBy(prev => {
-          return {
-            ...prev,
-            isAscending: !prev.isAscending
-          }
-        })
-      } else {
-        setSortBy(prev => {
-          return {
-            isAscending:false,
-            sortBy: key
-          }
-        })
-      }
-    }
-    return <tr className="rowHeader">
-      {Object.keys(data[0]).map((heading, i) => {
-        if (filterList.includes(heading)) { return }
-        const isSortable = () => {
-          if(data[0][heading]&&typeof data[0][heading] === 'object'){
-            return false}
-          return true
-        }
-        const renderArrows = (key) =>{
-          if(sortBy.sortBy===key){
-            return sortBy.isAscending?"\u2191":"\u2193"
-          }
-          return"\u2002"
-        }
-        return <th key={heading + i}><button onClick={isSortable()?() => { changeSortBy(heading) }:()=>{}}>{renderArrows(heading)+" "+heading+" "+renderArrows(heading)}</button></th>
-      })}
-    </tr>
-  }
+  
   return <table>
     <tbody>
       {renderHeaders(data, props.setState)}

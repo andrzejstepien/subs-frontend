@@ -120,6 +120,7 @@ function App() {
     } catch (error) {
       console.error()
     } finally { 
+      console.log("time for a refresh!")
       await refresh() 
       setIsWaiting(false)
       setFocus("SUBMISSIONS")
