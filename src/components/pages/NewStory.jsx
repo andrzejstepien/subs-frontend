@@ -7,6 +7,7 @@ export default (props) => {
         title: "",
         word_count: 0
     })
+    const [genres, setGenres] = useState({})
     const handleChange = (event) => {
         const value = event.target.value
         setData({
@@ -16,7 +17,7 @@ export default (props) => {
 
     }
     const handleToggle = (target) => {
-        setData(prev => {
+        setGenres(prev => {
             return {
                 ...prev,
                 [target]: !prev[target]
@@ -24,9 +25,13 @@ export default (props) => {
         })
         
     }
+    const sendData = {
+        ...data,
+        ...genres
+    }
 
     return <Page heading="New Story">
-    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',data,props.refresh,"STORIES")}}>
+    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',sendData,props.refresh,"STORIES")}}>
         <label htmlFor="title">Title<input name="title" type="text"
             value={data.title}
             onChange={handleChange} /></label>
@@ -38,7 +43,7 @@ export default (props) => {
         <Checkboxes name="genres"
             options={props.formOptions.genres}
             onChange={handleToggle}
-            data={data}
+            values={genres}
             legend="Genre:"
         />
         <button type="submit">SUBMIT</button>
