@@ -6,20 +6,6 @@ export default function Table(props) {
   //props.data ~ [{row1},{row2},{etc}]
   //each row ~ [{id:1, title:"The Red Room", etc},
   //each row ~ {id:1, title:"The Signalman", etc}]
-  const [sortBy, setSortBy] = useState({
-    sortBy: props.sortByDefault??Object.keys(data[0])[0],
-    isAscending: false
-  })
-  useEffect(() => {
-    console.dir(sortBy)
-    //sort(props.setState,data,sortBy)
-  }, [sortBy])
-  useEffect(()=>{
-    //console.dir(sortBy)
-    //sort(props.setState,data,sortBy) 
-    console.log("data is ready!")
-  },[props?.data])
-
   const filterList = props?.filterList ?? []
   const sort = (data,sortBy) => {
     const isDate = (str) =>{
@@ -58,6 +44,19 @@ export default function Table(props) {
     return e
   }) ?? []
   if (data.length === 0) { return <p>Nothing to see here...</p> }
+  const [sortBy, setSortBy] = useState({
+    sortBy: props.sortByDefault??Object.keys(data[0])[0],
+    isAscending: false
+  })
+  useEffect(() => {
+    console.dir(sortBy)
+    //sort(props.setState,data,sortBy)
+  }, [sortBy])
+  useEffect(()=>{
+    //console.dir(sortBy)
+    //sort(props.setState,data,sortBy) 
+    console.log("data is ready!")
+  },[props?.data])
   sort(data,sortBy)
 
   const renderHeaders = (data) => {
