@@ -115,7 +115,7 @@ function App() {
   useEffect(() => {
     addSubPagesToDirectory()
   }, [submissionsData])
-  const handleSubmit = async (event,endpoint,sendData,refresh) => {
+  const handleSubmit = async (event,endpoint,sendData,refresh,focus) => {
     console.dir(sendData)
     event.preventDefault()
     try {
@@ -128,10 +128,10 @@ function App() {
       console.log("time for a refresh!")
       await refresh() 
       setIsWaiting(false)
-      setFocus("SUBMISSIONS")
+      setFocus(focus)
     }
   }
-  const deleteCall = async (endpoint,id,refresh) =>{
+  const deleteCall = async (endpoint,id,refresh,focus) =>{
     console.log("attempting delete call!")
     try {
       setIsWaiting(true)
@@ -140,7 +140,7 @@ function App() {
     } catch (error) {
       await refresh()
       setIsWaiting(false)
-      setFocus("SUBMISSIONS")
+      setFocus(focus)
     }
     
   }

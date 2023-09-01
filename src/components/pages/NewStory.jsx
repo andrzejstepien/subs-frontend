@@ -26,7 +26,7 @@ export default (props) => {
     }
 
     return <Page heading="New Story">
-    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',data,props.refresh)}}>
+    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',data,props.refresh,"STORIES")}}>
         <label htmlFor="title">Title<input name="title" type="text"
             value={data.title}
             onChange={handleChange} /></label>

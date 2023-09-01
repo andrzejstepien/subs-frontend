@@ -29,7 +29,7 @@ export default (props) => {
     console.dir(sendData)
     return <>
     <Page heading="New Submission" >
-    <form onSubmit={(event) => { props.handleSubmit(event, 'submission/new', sendData, props.refresh) }} >
+    <form onSubmit={(event) => { props.handleSubmit(event, 'submission/new', sendData, props.refresh,"SUBMISSIONS") }} >
     <label htmlFor="stories">Story: <Dropdown name="story" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
     <label htmlFor="publishers">Publisher: <Dropdown name="pub" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
     
