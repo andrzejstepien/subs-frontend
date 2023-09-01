@@ -15,7 +15,7 @@ table table{
   td{
     padding: 1rem;
     max-width: 30rem;
-    word-break: break-all;
+    word-break:break-word;
   }
 
   .alert{
