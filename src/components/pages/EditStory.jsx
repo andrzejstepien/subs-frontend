@@ -39,7 +39,7 @@ export default (props) => {
         <Checkboxes name="genres"
             options={props.formOptions.genres}
             onChange={handleToggle}
-            data={data}
+            values={props.data.Genres}
             legend="Genre:"
         />
         <button type="submit">SUBMIT</button>
