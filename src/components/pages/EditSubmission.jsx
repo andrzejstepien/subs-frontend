@@ -1,8 +1,6 @@
-import { API } from '../../API.mjs'
 import Page from "./Page"
 import Dropdown from "../Dropdown"
 import { useState, useEffect } from "react"
-import Spinner from '../Loader'
 export default (props) => {
     const [data, setData] = useState({
         id: props.data.id,

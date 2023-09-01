@@ -5,7 +5,7 @@ export default (props) => {
     console.dir(props.data)
       const filterList = [
         'Submissions',
-        'ID'
+        //'ID'
       ]
       
 

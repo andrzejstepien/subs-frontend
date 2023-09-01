@@ -8,6 +8,7 @@ import SingleStory from './components/pages/SingleStory'
 import SinglePublication from './components/pages/SinglePublication'
 import Publications from './components/pages/Publications'
 import EditSubmission from './components/pages/EditSubmission'
+import EditStory from './components/pages/EditStory'
 import Spinner from './components/Loader'
 import { daysSince } from './functions/utilities.mjs'
 import { useState, useEffect } from 'react'
@@ -27,7 +28,7 @@ function App() {
     API.get('page/stories').then(res => {
       const rows = res.data.map(e => {
         e.Subs = e.Submissions.length
-        e.Edit = <button onClick={() => { setFocus(`EDITSTORY${e.id}`) }}>EDIT</button>
+        e.Edit = <button onClick={() => { setFocus(`EDITSTORY${e.ID}`) }}>EDIT</button>
         return e
       })
       setStoriesPageData(rows)
@@ -64,10 +65,12 @@ function App() {
       setIdsTable(res.data)
     })
   }
-  const addPagesToDirectory = (array, fn) => {
+  const addPagesToDirectory = (array, ...rest) => {
     const pages = {}
     for (const row of array) {
-      fn(row, pages)
+      for (const fn of rest) {
+        fn(row, pages)
+      }
     }
     setPageDirectory(prev => {
       return {
@@ -79,8 +82,10 @@ function App() {
   const addStoryPagesToDirectory = () => {
     addPagesToDirectory(
       storiesPageData,
-      (row, pages) => { return pages[row.Title] = <SingleStory data={row} setFocus={setFocus} /> })
-  }
+      (row, pages) => { return pages[row.Title] = <SingleStory data={row} setFocus={setFocus} /> },
+      (row, pages) => { return pages[`EDITSTORY${row.ID}`] = <EditStory data={row} formOptions={formOptions} idsTable={idsTable} refresh={getStoriesPageData} handleSubmit={handleSubmit} deleteCall={deleteCall}/> }
+    )
+    }
   const addPubPagesToDirectory = () => {
     addPagesToDirectory(
       pubsPageData,

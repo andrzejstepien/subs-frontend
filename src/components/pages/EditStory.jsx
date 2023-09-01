@@ -2,10 +2,11 @@ import Checkboxes from "../Checkboxes"
 import { useState } from "react"
 import Page from "./Page.jsx"
 export default (props) => {
-
+    console.dir(props.data)
     const [data, setData] = useState({
-        title: "",
-        word_count: 0
+        id:props.data.ID,
+        title: props.data.Title,
+        word_count: props.data.Wordcount
     })
     const handleChange = (event) => {
         const value = event.target.value
@@ -25,8 +26,8 @@ export default (props) => {
         
     }
 
-    return <Page heading="New Story">
-    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',data,props.refresh)}}>
+    return <Page heading={`EDIT STORY #${props.data.ID}`}>
+    <form onSubmit={(event)=>{props.handleSubmit(event,'story/edit',data,props.refresh)}}>
         <label htmlFor="title">Title<input name="title" type="text"
             value={data.title}
             onChange={handleChange} /></label>
