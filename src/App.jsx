@@ -90,7 +90,7 @@ function App() {
   const addSubPagesToDirectory = () => {
     addPagesToDirectory(
       submissionsData,
-      (row, pages) => { return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/> }
+      (row, pages) => { return pages[`EDITSUB${row.id}`] = <EditSubmission data={row} formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit} deleteCall={deleteCall}/> }
     )
   }
   
@@ -126,13 +126,25 @@ function App() {
       setFocus("SUBMISSIONS")
     }
   }
-
+  const deleteCall = async (endpoint,id,refresh) =>{
+    console.log("attempting delete call!")
+    try {
+      setIsWaiting(true)
+      const res = API.delete(endpoint,{data:{id:id}})
+      console.log(res)
+    } catch (error) {
+      await refresh()
+      setIsWaiting(false)
+      setFocus("SUBMISSIONS")
+    }
+    
+  }
   
 
 
 
   const sidebarPages = {
-    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} setState={setSubmissionsData}/>,
+    SUBMISSIONS: <Submissions data={submissionsData} setFocus={setFocus} />,
     STORIES: <Stories data={storiesPageData} setFocus={setFocus}/>,
     PUBLICATIONS: <Publications data={pubsPageData} setFocus={setFocus}/>,
     SUBMIT: <NewSubmission formOptions={formOptions} idsTable={idsTable} refresh={getSubmissionsData} handleSubmit={handleSubmit}/>,

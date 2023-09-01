@@ -57,7 +57,7 @@ export default (props) => {
        
 
          
-                <button type="submit" >SUBMIT</button>
+                <button onClick={()=>{props.deleteCall('submission/delete',props.data.id,props.refresh)}} >DELETE</button><button type="submit" >SUBMIT</button>
            
         </form>
     </Page>
