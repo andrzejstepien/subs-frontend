@@ -54,6 +54,7 @@ console.dir(props.formOptions.genres)
             values={genres}
             legend="Genre:"
         />
+        <button onClick={()=>{props.deleteCall('story/delete',props.data.ID,props.refresh,"STORIES")}}>DELETE</button>
         <button type="submit">SUBMIT</button>
     </form>
     </Page>
