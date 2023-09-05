@@ -33,8 +33,8 @@ export default (props) => {
         })
     }
     const sendData = {
-        ...data,
-        ...genres
+        data,
+        genres
     }
 console.dir(genres)
 console.dir(props.formOptions.genres)

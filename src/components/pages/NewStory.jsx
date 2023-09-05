@@ -26,12 +26,12 @@ export default (props) => {
         
     }
     const sendData = {
-        ...data,
-        ...genres
+        data,
+        genres
     }
 
     return <Page heading="New Story">
-    <form onSubmit={(event)=>{props.handleSubmit(event,'story/new',sendData,props.refresh,"STORIES")}}>
+    <form onSubmit={(event)=>{props.handleSubmit(event,'story/create',sendData,props.refresh,"STORIES")}}>
         <label htmlFor="title">Title<input name="title" type="text"
             value={data.title}
             onChange={handleChange} /></label>

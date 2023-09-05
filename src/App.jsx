@@ -25,7 +25,9 @@ function App() {
   const [formOptions, setFormOptions] = useState({})
   
   const getStoriesPageData = () => {
-    API.get('page/stories').then(res => {
+    API.get('story/view').then(res => {
+      console.log("story view received!")
+      console.dir(res.data)
       const rows = res.data.map(e => {
         e.Subs = e.Submissions.length
         e.Edit = <button onClick={() => { setFocus(`EDITSTORY${e.ID}`) }}>EDIT</button>
@@ -35,7 +37,9 @@ function App() {
     })
   }
   const getPubsPageData = () => {
-    API.get('page/pubs').then(res => {
+    API.get('publication/view').then(res => {
+      console.log("pubs data received!")
+      console.dir(res.data)
       const rows = res.data.map(e => {
         e.Subs = e.Submissions.length
         e.Edit = <button onClick={() => { setFocus(`EDITPUB${e.id}`) }}>EDIT</button>
@@ -45,7 +49,7 @@ function App() {
     })
   }
   const getSubmissionsData = () => {
-    API.get("submissions").then(res => {
+    API.get("submission/view").then(res => {
       setSubmissionsData(prev => {
         return res.data.map(e => {
           e['Days Out'] = e.Response === "Pending" ? daysSince(e.Submitted) : daysSince(e.Submitted, e.Responded)
@@ -56,12 +60,12 @@ function App() {
     })
   }
   const getFormOptions = () => {
-    API.get("formOptions").then(res => {
+    API.get("form-options").then(res => {
       setFormOptions(res.data)
     })
   }
   const getIdsTable = () => {
-    API.get("idsTable").then(res => {
+    API.get("id-table").then(res => {
       setIdsTable(res.data)
     })
   }
@@ -115,6 +119,14 @@ function App() {
   useEffect(() => {
     addSubPagesToDirectory()
   }, [submissionsData])
+  useEffect(()=>{
+    console.log('formOptions:')
+    console.dir(formOptions)
+  },[formOptions])
+  useEffect(()=>{
+    console.log('idsTable:')
+    console.dir(idsTable)
+  },[idsTable])
   const handleSubmit = async (event,endpoint,sendData,refresh,focus) => {
     console.dir(sendData)
     event.preventDefault()

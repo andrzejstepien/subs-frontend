@@ -26,11 +26,11 @@ export default (props) => {
 
     const sendData = {
         id: props.data.id,
-        story_id: props.idsTable.story[data.story],
-        pub_id: props.idsTable.pub[data.pub],
+        story_id: props.idsTable?.stories[data.story],
+        pub_id: props.idsTable?.publications[data.pub],
         date_submitted: data.submitted===""?null:data.submitted,
         date_responded: data.responded===""?null:data.responded,
-        response_id: props.idsTable.response[data.response]
+        response_id: props.idsTable.responses[data.response]
     }
 
 
@@ -38,7 +38,7 @@ export default (props) => {
         <form onSubmit={(event) => { props.handleSubmit(event, 'submission/edit', sendData, props.refresh,"SUBMISSIONS") }}>
        
                 <label htmlFor="stories">Story: <Dropdown name="story" options={props.formOptions.stories} value={data.story} handleChange={handleChange} /></label>
-                <label htmlFor="publishers">Publisher: <Dropdown name="pub" options={props.formOptions.pubs} value={data.pub} handleChange={handleChange} /></label>
+                <label htmlFor="publishers">Publisher: <Dropdown name="pub" options={props.formOptions.publications} value={data.pub} handleChange={handleChange} /></label>
                 
          
                 <label htmlFor="queryAfter">Query After: <input type="number" name="queryAfter" value={data.queryAfter} onChange={handleChange}></input></label>
