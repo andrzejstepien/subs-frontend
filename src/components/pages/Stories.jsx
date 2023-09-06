@@ -1,6 +1,5 @@
 import Table from "../Table"
 import Page from "./Page"
-import { removePairs } from "../../functions/utilities.mjs"
 export default (props) => {
     console.dir(props.data)
       const filterList = [
